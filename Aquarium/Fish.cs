@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
@@ -32,9 +33,16 @@ namespace Aquarium
 				if (nextPoint.X < 0 || nextPoint.X > aquarium.GetSize().Width || nextPoint.Y < 0 ||
 				    nextPoint.Y > aquarium.GetSize().Height)
 					Direction = (Direction + Math.PI) % 2 * Math.PI;
-				else if (aquarium.GetObjects().Where(o => o != this).Where(o => o.Rectangle().IntersectsWith(Rectangle())).OfType<ICollise>().Count(c => c.IsShouldCollise(GetCollisionType())) > 0)
+				else
+				{
+					var intersections = aquarium.GetObjects().Where(o => o != this && o.Rectangle().IntersectsWith(Rectangle(nextPoint, GetSize())));
+					var gameObjects = intersections as IList<GameObject> ?? intersections.ToList();
+					if (!gameObjects.Any()) return nextPoint;
+					var collisions = gameObjects.OfType<ICollise>();
+					if (collisions.All(c => IsShouldCollise(c.GetCollisionType()))) return nextPoint;
 					return GetLocation();
-				else return nextPoint;
+
+				}
 			}
 		}
 

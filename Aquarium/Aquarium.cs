@@ -22,7 +22,7 @@ namespace Aquarium
 			for (var i = 0; i < fishCount/2; i++)
 				result.Add(new BlueNeon(this, new Point(20 + i*20, 20), 0));
 			for (var i = 0; i < fishCount / 2; i++)
-				result.Add(new BlueNeon(this, new Point(20 + i * 20, 40), 0));
+				result.Add(new BlueNeon(this, new Point(20 + i * 30, 40), 0));
 			return result;
 		}
 

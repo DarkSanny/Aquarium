@@ -44,7 +44,6 @@ namespace Aquarium
         public override bool IsShouldCollise(ObjectType objectType)
         {
 			// todo: false если рыбу нельзя съесть
-	        //if (objectType == GetCollisionType() && IsLeader) return true;
             return objectType != GetCollisionType() || IsLeader;
         }
 
@@ -63,7 +62,7 @@ namespace Aquarium
             else if (Target != null)
             {
 	            var targetLocation = Target.GetLocation();
-				var vector = new Vector(targetLocation.X-_location.X, targetLocation.Y - _location.Y);
+	            var vector = new Vector(targetLocation.X - _location.X, targetLocation.Y - _location.Y);
 	            Direction = vector.Angle;
 	            _location = GetNextPoint(_aquarium);
             }

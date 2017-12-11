@@ -14,5 +14,10 @@ namespace Aquarium
 			var size = GetSize();
 			return new Rectangle(location.X - size.Width/2, location.Y - size.Height/2, size.Width, size.Height);
 		}
+
+		public static Rectangle Rectangle(Point location, Size size)
+		{
+			return new Rectangle(location.X - size.Width / 2, location.Y - size.Height / 2, size.Width, size.Height);
+		}
 	}
 }
