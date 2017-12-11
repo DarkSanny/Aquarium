@@ -20,10 +20,10 @@ namespace Aquarium
             Direction = direction;
         }
 
-        public override void Collision(ObjectType objectType)
+        public override void Collision(ObjectType objectType, GameObject obj)
         {
 	        if (objectType == GetCollisionType()) return;
-	        //TODO: вызов события смерти
+	        OnShouldDie();
         }
 
         public override ObjectType GetCollisionType()
@@ -43,6 +43,8 @@ namespace Aquarium
 
         public override bool IsShouldCollise(ObjectType objectType)
         {
+			// todo: false если рыбу нельзя съесть
+	        //if (objectType == GetCollisionType() && IsLeader) return true;
             return objectType != GetCollisionType() || IsLeader;
         }
 
@@ -58,9 +60,12 @@ namespace Aquarium
             {
                 _location = GetNextPoint(_aquarium);
             }
-            else
+            else if (Target != null)
             {
-                //двигаться к цели
+	            var targetLocation = Target.GetLocation();
+				var vector = new Vector(targetLocation.X-_location.X, targetLocation.Y - _location.Y);
+	            Direction = vector.Angle;
+	            _location = GetNextPoint(_aquarium);
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Aquarium
@@ -13,7 +14,7 @@ namespace Aquarium
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Form1());
+            Application.Run(new GameForm(new Aquarium(new Size(500, 500), 10)));
         }
     }
 }

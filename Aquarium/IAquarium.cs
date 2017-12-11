@@ -6,7 +6,7 @@ namespace Aquarium
     public interface IAquarium
     {
         Size GetSize();
-        IEnumerable<IObject> GetObjects();
+        IEnumerable<GameObject> GetObjects();
         IEnumerable<Fish> GetFishes();
     }
 }
