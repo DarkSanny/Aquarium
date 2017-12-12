@@ -21,9 +21,9 @@ namespace Aquarium.Tests
 		public void SetUp()
 		{
 			_aquarium = A.Fake<IAquarium>();
-			_neon1 = new BlueNeon(_aquarium, new Point(10, 10), 0);
-			_neon2 = new BlueNeon(_aquarium, new Point(11, 11), 0);
-			_neon3 = new BlueNeon(_aquarium, new Point(12, 12), 0);
+			_neon1 = new BlueNeon(_aquarium, new Point(10, 10), 0, new Size(20, 10));
+			_neon2 = new BlueNeon(_aquarium, new Point(11, 11), 0, new Size(20, 10));
+			_neon3 = new BlueNeon(_aquarium, new Point(12, 12), 0, new Size(20, 10));
 			_defaultSize = new Size(100, 100);
 			A.CallTo(() => _aquarium.GetSize()).Returns(_defaultSize);
 			_objects = new List<GameObject> { _neon1, _neon2, _neon3 };

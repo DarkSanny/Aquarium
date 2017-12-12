@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Linq;
+using Aquarium.Brains;
 
 namespace Aquarium
 {
@@ -7,14 +8,12 @@ namespace Aquarium
     {
         private readonly IAquarium _aquarium;
         private Point _location;
-        private readonly Size _size;
         public bool IsLeader { get; private set; }
 
-        public BlueNeon(IAquarium aquarium, Point location, double direction)
+        public BlueNeon(IAquarium aquarium, Point location, double direction, Size size) : base(new BlueNeonBrain(), size)
         {
             _aquarium = aquarium;
             _location = location;
-            _size = new Size(20, 10);
             Speed = 5;
             Force = 0;
             Direction = direction;
@@ -36,11 +35,6 @@ namespace Aquarium
             return _location;
         }
 
-        public override Size GetSize()
-        {
-            return _size;
-        }
-
         public override bool IsShouldCollise(ObjectType objectType)
         {
 			// todo: false если рыбу нельзя съесть
@@ -49,7 +43,11 @@ namespace Aquarium
 
         public override void Move()
         {
-            if (!IsLeader && Target == null) 
+			/*/
+			 * todo: в этом метсте должен думать мозг, события установят напраыление и после нужно просто попробывать сдвинуться вперед
+			 * все что снизу это простая реализация интелекта для рыбы, нужен автомат
+			 * /*/
+			if (!IsLeader && Target == null) 
                 Target = _aquarium
                     .GetFishes()
                     .OfType<BlueNeon>()

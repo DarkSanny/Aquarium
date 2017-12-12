@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using Aquarium.Brains;
 
 namespace Aquarium
 {
@@ -12,10 +13,25 @@ namespace Aquarium
 
 	public abstract class Fish : GameObject, ICollise
 	{
+		protected readonly Brain Brain;
+		private readonly Size _size;
 		public double Direction { get; protected set; }
 		public double Speed { get; protected set; }
 		public int Force { get; protected set; }
 		public Fish Target { get; protected set; }
+
+		protected Fish(Brain brain, Size size)
+		{
+			Brain = brain;
+			_size = size;
+			Brain.DirectionChanged += (direction) => Direction = direction;
+			Brain.TargetChanged += (target) => Target = target;
+		}
+
+		public override Size GetSize()
+		{
+			return _size;
+		}
 
 		public abstract void Collision(ObjectType objectType, GameObject obj);
 
@@ -41,7 +57,6 @@ namespace Aquarium
 					var collisions = gameObjects.OfType<ICollise>();
 					if (collisions.All(c => IsShouldCollise(c.GetCollisionType()))) return nextPoint;
 					return GetLocation();
-
 				}
 			}
 		}

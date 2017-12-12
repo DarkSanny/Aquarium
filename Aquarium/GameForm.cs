@@ -22,7 +22,7 @@ namespace Aquarium
 			var updates = new Timer() { Interval = 1000 / 30 };
 			updates.Tick += (sender, args) =>
 			{
-				_aquarium.GetFishes().ToList().ForEach(i => i.Move());
+				_aquarium.Update();
 			};
 			var render = new Timer() { Interval = 1 };
 			render.Tick += (sender, args) => { Invalidate(); };

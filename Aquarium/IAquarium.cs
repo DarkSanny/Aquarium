@@ -8,5 +8,6 @@ namespace Aquarium
         Size GetSize();
         IEnumerable<GameObject> GetObjects();
         IEnumerable<Fish> GetFishes();
+	    void Update();
     }
 }
