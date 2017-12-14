@@ -4,7 +4,7 @@ using System.Drawing;
 
 namespace Aquarium.UI
 {
-    class Drawing : IObjectDrawer
+    class ObjectDrawer : IObjectDrawer
     {
         Dictionary<Type, IImage> ImageFactory = new Dictionary<Type, IImage>();
 
@@ -12,7 +12,7 @@ namespace Aquarium.UI
         {
             if (!ImageFactory.ContainsKey(gameObject.GetType()))
                 ImageFactory.Add(gameObject.GetType(), new ImageSource(gameObject.ToString()));
-            graphics.DrawImage(ImageFactory[gameObject.GetType()].GetImages()[0], gameObject.GetLocation());
+            graphics.DrawImage(ImageFactory[gameObject.GetType()].GetImage(), gameObject.GetLocation());
         }
     }
 }

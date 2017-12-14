@@ -4,6 +4,6 @@ namespace Aquarium.UI
 {
 	public interface IImage
 	{
-		List<Bitmap> GetImages();
+		Bitmap GetImage();
 	}
 }
