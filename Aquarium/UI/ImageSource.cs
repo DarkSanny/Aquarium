@@ -3,19 +3,19 @@ using System.Drawing;
 
 namespace Aquarium.UI
 {
-    class ImageSource : IImage
+    public class ImageSource : IImage
     {
-        private readonly List<Bitmap> sprites;
+        private readonly List<Bitmap> _sprites;
 
         public ImageSource(string gameObject)
         {
             var loader = new ImageLoaderFromFile(gameObject);
-            sprites = loader.GetImages();
+            _sprites = loader.GetImages();
         }
 
         public Bitmap GetImage()
         {
-            return sprites[0];
+            return _sprites[0];
         }
     }
 }

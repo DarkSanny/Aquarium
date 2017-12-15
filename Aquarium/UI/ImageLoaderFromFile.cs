@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace Aquarium.UI
 {
-    class ImageLoaderFromFile : IImageLoader
+    public class ImageLoaderFromFile : IImageLoader
     {
-        private List<Bitmap> images;
+        private List<Bitmap> _images;
 
         public ImageLoaderFromFile(string gameObject)
         {
@@ -17,7 +17,7 @@ namespace Aquarium.UI
         public void ChangeObject(string gameObject)
         {
             var dir = new DirectoryInfo("Resources");
-            images = dir
+            _images = dir
                 .EnumerateFiles(gameObject + "*.png")
                 .Select(file => (Bitmap)Image.FromFile(file.FullName))
                 .ToList();
@@ -25,7 +25,7 @@ namespace Aquarium.UI
 
         public List<Bitmap> GetImages()
         {
-            return images;
+            return _images;
         }
     }
 }

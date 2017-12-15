@@ -4,15 +4,15 @@ using System.Drawing;
 
 namespace Aquarium.UI
 {
-    class ObjectDrawer : IObjectDrawer
+    public class ObjectDrawer : IObjectDrawer
     {
-        readonly Dictionary<Type, IImage> ImageFactory = new Dictionary<Type, IImage>();
+        private readonly Dictionary<Type, IImage> _imageFactory = new Dictionary<Type, IImage>();
 
         public void DrawObject(Graphics graphics, GameObject gameObject)
         {
-            if (!ImageFactory.ContainsKey(gameObject.GetType()))
-                ImageFactory.Add(gameObject.GetType(), new ImageSource(gameObject.ToString()));
-            graphics.DrawImage(ImageFactory[gameObject.GetType()].GetImage(), gameObject.GetLocation());
+            if (!_imageFactory.ContainsKey(gameObject.GetType()))
+                _imageFactory.Add(gameObject.GetType(), new ImageSource(gameObject.ToString()));
+            graphics.DrawImage(_imageFactory[gameObject.GetType()].GetImage(), gameObject.GetLocation());
         }
     }
 }
