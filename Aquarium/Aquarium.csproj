@@ -74,8 +74,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\AquariumShould.cs" />
     <Compile Include="Tests\BlueNeonShould.cs" />
+    <Compile Include="UI\IImageLoader.cs" />
+    <Compile Include="UI\ImageSource.cs" />
+    <Compile Include="UI\ObjectDrawer.cs" />
     <Compile Include="UI\IImage.cs" />
     <Compile Include="Tests\ObjectCollisionShould.cs" />
+    <Compile Include="UI\ImageLoaderFromFile.cs" />
     <Compile Include="UI\IObjectDrawer.cs" />
     <Compile Include="Vector.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
