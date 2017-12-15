@@ -47,6 +47,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -59,10 +63,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aquarium.cs" />
-    <Compile Include="BlueNeon.cs" />
+    <Compile Include="Fishes\BlueNeon.cs" />
     <Compile Include="Brains\BlueNeonBrain.cs" />
     <Compile Include="Brains\Brain.cs" />
-    <Compile Include="Fish.cs" />
+    <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="Fishes\Fish.cs" />
     <Compile Include="GameForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,8 +83,12 @@
     <Compile Include="UI\ImageSource.cs" />
     <Compile Include="UI\ObjectDrawer.cs" />
     <Compile Include="UI\IImage.cs" />
+<<<<<<< HEAD
     <Compile Include="Tests\ObjectCollisionShould.cs" />
     <Compile Include="UI\ImageLoaderFromFile.cs" />
+=======
+    <Compile Include="Tests\BlueNeonCollisionShould.cs" />
+>>>>>>> 597235ff7d1d33c3d4a89e2a19554a1e0e7601f8
     <Compile Include="UI\IObjectDrawer.cs" />
     <Compile Include="Vector.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -105,7 +114,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

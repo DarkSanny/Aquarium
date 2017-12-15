@@ -4,26 +4,43 @@ using System.Drawing;
 using System.Linq;
 using Aquarium.Brains;
 
-namespace Aquarium
+namespace Aquarium.Fishes
 {
 	public enum ObjectType
 	{
-		BlueNeon
+		BlueNeon,
+		Piranha
 	}
 
 	public abstract class Fish : GameObject, ICollise
 	{
-		protected readonly Brain Brain;
+		protected Brain Brain;
 		private readonly Size _size;
-		public double Direction { get; protected set; }
+		private double _direction;
+
+		public double Direction
+		{
+			get
+            {
+                return _direction;
+            }
+			protected set
+            {
+                _direction = value % (2 * Math.PI);
+            }
+		}
 		public double Speed { get; protected set; }
 		public int Force { get; protected set; }
 		public Fish Target { get; protected set; }
 
-		protected Fish(Brain brain, Size size)
+		protected Fish(Size size)
+		{
+			_size = size;
+		}
+
+		protected void SetBrain(Brain brain)
 		{
 			Brain = brain;
-			_size = size;
 			Brain.DirectionChanged += (direction) => Direction = direction;
 			Brain.TargetChanged += (target) => Target = target;
 		}
@@ -46,12 +63,12 @@ namespace Aquarium
 			while (true)
 			{
 				var nextPoint = GetCartesianPoint();
-				if (nextPoint.X < 0 || nextPoint.X > aquarium.GetSize().Width || nextPoint.Y < 0 ||
-				    nextPoint.Y > aquarium.GetSize().Height)
-					Direction = (Direction + Math.PI) % 2 * Math.PI;
+				if (IsOutOfBorder(nextPoint, aquarium))
+					Direction = Bounce(Direction, nextPoint, aquarium);
 				else
 				{
-					var intersections = aquarium.GetObjects().Where(o => o != this && o.Rectangle().IntersectsWith(Rectangle(nextPoint, GetSize())));
+					var intersections = aquarium.GetObjects()
+						.Where(o => o != this && o.Rectangle().IntersectsWith(Rectangle(nextPoint, GetSize())));
 					var gameObjects = intersections as IList<GameObject> ?? intersections.ToList();
 					if (!gameObjects.Any()) return nextPoint;
 					var collisions = gameObjects.OfType<ICollise>();
@@ -59,6 +76,22 @@ namespace Aquarium
 					return GetLocation();
 				}
 			}
+		}
+
+		private static bool IsOutOfBorder(Point point, IAquarium aquarium)
+		{
+			var size = aquarium.GetSize();
+			return point.X < 0 || point.X > size.Width || point.Y < 0 ||
+			       point.Y > size.Height;
+		}
+
+		private static double Bounce(double directionRadians, Point point, IAquarium aquarium)
+		{
+			var size = aquarium.GetSize();
+			var wallInclinationRadians = 0.0;
+			if (point.X < 0 || point.X > size.Width) wallInclinationRadians = Math.PI / 2;
+			if (point.Y < 0 || point.Y > size.Height) wallInclinationRadians = 0;
+			return 2 * wallInclinationRadians - directionRadians;
 		}
 
 		private Point GetCartesianPoint()

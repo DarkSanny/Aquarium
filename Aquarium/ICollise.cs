@@ -1,4 +1,6 @@
-﻿namespace Aquarium
+﻿using Aquarium.Fishes;
+
+namespace Aquarium
 {
     public interface ICollise
     {
