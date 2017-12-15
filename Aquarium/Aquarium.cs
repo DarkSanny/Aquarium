@@ -37,6 +37,11 @@ namespace Aquarium
 			return result;
 		}
 
+        public void AddGameObject(GameObject gameObject)
+        {
+            _objects.Add(gameObject);
+        }
+
 		public Size GetSize()
 		{
 			return _size;

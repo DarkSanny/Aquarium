@@ -20,8 +20,14 @@ namespace Aquarium.Fishes
 
 		public double Direction
 		{
-			get => _direction;
-			protected set => _direction = value % (2 * Math.PI);
+			get
+            {
+                return _direction;
+            }
+			protected set
+            {
+                _direction = value % (2 * Math.PI);
+            }
 		}
 		public double Speed { get; protected set; }
 		public int Force { get; protected set; }

@@ -63,8 +63,7 @@ namespace Aquarium.Tests
 			var piranha = A.Fake<Fish>();
 			var counter = 0;
 			_neon1.ShouldDie += () => counter++; 
-			A.CallTo(() => piranha.GetCollisionType()).Returns(ObjectType.Piranha);
-			 _neon1.Collision(ObjectType.Piranha, piranha);
+			_neon1.Collision(ObjectType.Piranha, piranha);
 			counter.Should().Be(1);
 		}
 	}
