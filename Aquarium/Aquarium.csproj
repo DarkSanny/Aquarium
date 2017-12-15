@@ -47,6 +47,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -59,10 +62,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aquarium.cs" />
-    <Compile Include="BlueNeon.cs" />
+    <Compile Include="Fishes\BlueNeon.cs" />
     <Compile Include="Brains\BlueNeonBrain.cs" />
     <Compile Include="Brains\Brain.cs" />
-    <Compile Include="Fish.cs" />
+    <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="Fishes\Fish.cs" />
     <Compile Include="GameForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -75,7 +79,7 @@
     <Compile Include="Tests\AquariumShould.cs" />
     <Compile Include="Tests\BlueNeonShould.cs" />
     <Compile Include="UI\IImage.cs" />
-    <Compile Include="Tests\ObjectCollisionShould.cs" />
+    <Compile Include="Tests\BlueNeonCollisionShould.cs" />
     <Compile Include="UI\IObjectDrawer.cs" />
     <Compile Include="Vector.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
