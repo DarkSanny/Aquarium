@@ -12,7 +12,7 @@ namespace Aquarium.UI
         {
             if (!ImageFactory.ContainsKey(gameObject.GetType()))
                 ImageFactory.Add(gameObject.GetType(), new ImageSource(gameObject.ToString()));
-            graphics.DrawImage(ImageFactory[gameObject.GetType()].GetImage(), gameObject.GetLocation());
+            graphics.DrawImage(ImageFactory[gameObject.GetType()].GetImage(), gameObject.GetLocation()); //huy
         }
     }
 }
