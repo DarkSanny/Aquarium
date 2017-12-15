@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 
 namespace Aquarium.UI
 {
     class ImageSource : IImage
     {
-        private List<Bitmap> sprites;
+        private readonly List<Bitmap> sprites;
 
         public ImageSource(string gameObject)
         {
-            ImageLoaderFromFile loader = new ImageLoaderFromFile(gameObject);
+            var loader = new ImageLoaderFromFile(gameObject);
             sprites = loader.GetImages();
         }
 

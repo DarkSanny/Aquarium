@@ -6,7 +6,7 @@ namespace Aquarium.UI
 {
     class ObjectDrawer : IObjectDrawer
     {
-        Dictionary<Type, IImage> ImageFactory = new Dictionary<Type, IImage>();
+        readonly Dictionary<Type, IImage> ImageFactory = new Dictionary<Type, IImage>();
 
         public void DrawObject(Graphics graphics, GameObject gameObject)
         {

@@ -81,7 +81,11 @@
     <Compile Include="Tests\BlueNeonShould.cs" />
     <Compile Include="UI\IImage.cs" />
     <Compile Include="Tests\BlueNeonCollisionShould.cs" />
+    <Compile Include="UI\IImageLoader.cs" />
+    <Compile Include="UI\ImageLoaderFromFile.cs" />
+    <Compile Include="UI\ImageSource.cs" />
     <Compile Include="UI\IObjectDrawer.cs" />
+    <Compile Include="UI\ObjectDrawer.cs" />
     <Compile Include="Vector.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 
 namespace Aquarium.UI
 {
@@ -10,12 +11,16 @@ namespace Aquarium.UI
 
         public ImageLoaderFromFile(string gameObject)
         {
-            List<Bitmap> images = new List<Bitmap>();
-            DirectoryInfo dir = new DirectoryInfo("Resources");
-            foreach (FileInfo file in dir.EnumerateFiles(gameObject + "*.png"))
-            {
-                images.Add((Bitmap)Image.FromFile(file.FullName));
-            }
+            ChangeObject(gameObject);
+        }
+
+        public void ChangeObject(string gameObject)
+        {
+            var dir = new DirectoryInfo("Resources");
+            images = dir
+                .EnumerateFiles(gameObject + "*.png")
+                .Select(file => (Bitmap)Image.FromFile(file.FullName))
+                .ToList();
         }
 
         public List<Bitmap> GetImages()
