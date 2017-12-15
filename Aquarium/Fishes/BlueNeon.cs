@@ -1,8 +1,7 @@
 ﻿using System.Drawing;
-using System.Linq;
 using Aquarium.Brains;
 
-namespace Aquarium
+namespace Aquarium.Fishes
 {
     public class BlueNeon : Fish
     {

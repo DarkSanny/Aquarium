@@ -1,4 +1,5 @@
 ﻿using System;
+using Aquarium.Fishes;
 
 namespace Aquarium.Brains
 {

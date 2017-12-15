@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using Aquarium.Brains;
 
-namespace Aquarium
+namespace Aquarium.Fishes
 {
 	public enum ObjectType
 	{
@@ -52,15 +52,13 @@ namespace Aquarium
 
 		public abstract bool IsShouldCollise(ObjectType objectType);
 
-		private readonly Random _random = new Random();
 		protected Point GetNextPoint(IAquarium aquarium)
 		{
 			while (true)
 			{
 				var nextPoint = GetCartesianPoint();
-				if (nextPoint.X < 0 || nextPoint.X > aquarium.GetSize().Width || nextPoint.Y < 0 ||
-				    nextPoint.Y > aquarium.GetSize().Height)
-					Direction += Math.PI + Math.PI/180*(-45+_random.Next(90));
+				if (IsOutOfBorder(nextPoint, aquarium))
+					Direction = Bounce(Direction, nextPoint, aquarium);
 				else
 				{
 					var intersections = aquarium.GetObjects()
@@ -72,6 +70,22 @@ namespace Aquarium
 					return GetLocation();
 				}
 			}
+		}
+
+		private static bool IsOutOfBorder(Point point, IAquarium aquarium)
+		{
+			var size = aquarium.GetSize();
+			return point.X < 0 || point.X > size.Width || point.Y < 0 ||
+			       point.Y > size.Height;
+		}
+
+		private static double Bounce(double directionRadians, Point point, IAquarium aquarium)
+		{
+			var size = aquarium.GetSize();
+			var wallInclinationRadians = 0.0;
+			if (point.X < 0 || point.X > size.Width) wallInclinationRadians = Math.PI / 2;
+			if (point.Y < 0 || point.Y > size.Height) wallInclinationRadians = 0;
+			return 2 * wallInclinationRadians - directionRadians;
 		}
 
 		private Point GetCartesianPoint()

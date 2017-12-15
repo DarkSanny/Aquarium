@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using Aquarium.Fishes;
 
 namespace Aquarium
 {
@@ -22,13 +24,13 @@ namespace Aquarium
 			var result = new List<GameObject>();
 			for (var i = 0; i < fishCount / 2; i++)
 			{
-				var neon = new BlueNeon(this, new Point(20 + i * 20, 20), 0, new Size(20, 10));
+				var neon = new BlueNeon(this, new Point(20 + i * 20, 20), Math.PI/3, new Size(20, 10));
 				neon.ShouldDie += () => _deadFishes.Push(neon);
 				result.Add(neon);
 			}
 			for (var i = 0; i < fishCount / 2; i++)
 			{
-				var neon = new BlueNeon(this, new Point(20 + i * 20, 40), 0, new Size(20, 10));
+				var neon = new BlueNeon(this, new Point(20 + i * 20, 40), Math.PI/3, new Size(20, 10));
 				neon.ShouldDie += () => _deadFishes.Push(neon);
 				result.Add(neon);
 			}

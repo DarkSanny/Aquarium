@@ -62,11 +62,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aquarium.cs" />
-    <Compile Include="BlueNeon.cs" />
+    <Compile Include="Fishes\BlueNeon.cs" />
     <Compile Include="Brains\BlueNeonBrain.cs" />
     <Compile Include="Brains\Brain.cs" />
     <Compile Include="EnumerableExtensions.cs" />
-    <Compile Include="Fish.cs" />
+    <Compile Include="Fishes\Fish.cs" />
     <Compile Include="GameForm.cs">
       <SubType>Form</SubType>
     </Compile>

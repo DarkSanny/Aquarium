@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.InteropServices;
-using Aquarium;
+using Aquarium.Fishes;
 using FakeItEasy;
 using FluentAssertions;
 using NUnit.Framework;
