@@ -42,10 +42,6 @@ namespace Aquarium
 
 		public IEnumerable<GameObject> GetObjects()
 		{
-			foreach (var gameObject in _deadFishes)
-			{
-				_objects.Remove(gameObject);
-			}
 			return _objects;
 		}
 
@@ -56,6 +52,10 @@ namespace Aquarium
 
 		public void Update()
 		{
+			foreach (var gameObject in _deadFishes)
+			{
+				_objects.Remove(gameObject);
+			}
 			GetFishes().ToList().ForEach(i => i.Move());
 		}
 	}

@@ -8,22 +8,33 @@ namespace Aquarium
 {
 	public enum ObjectType
 	{
-		BlueNeon
+		BlueNeon,
+		Piranha
 	}
 
 	public abstract class Fish : GameObject, ICollise
 	{
-		protected readonly Brain Brain;
+		protected Brain Brain;
 		private readonly Size _size;
-		public double Direction { get; protected set; }
+		private double _direction;
+
+		public double Direction
+		{
+			get => _direction;
+			protected set => _direction = value % (2 * Math.PI);
+		}
 		public double Speed { get; protected set; }
 		public int Force { get; protected set; }
 		public Fish Target { get; protected set; }
 
-		protected Fish(Brain brain, Size size)
+		protected Fish(Size size)
+		{
+			_size = size;
+		}
+
+		protected void SetBrain(Brain brain)
 		{
 			Brain = brain;
-			_size = size;
 			Brain.DirectionChanged += (direction) => Direction = direction;
 			Brain.TargetChanged += (target) => Target = target;
 		}
@@ -41,6 +52,7 @@ namespace Aquarium
 
 		public abstract bool IsShouldCollise(ObjectType objectType);
 
+		private readonly Random _random = new Random();
 		protected Point GetNextPoint(IAquarium aquarium)
 		{
 			while (true)
@@ -48,10 +60,11 @@ namespace Aquarium
 				var nextPoint = GetCartesianPoint();
 				if (nextPoint.X < 0 || nextPoint.X > aquarium.GetSize().Width || nextPoint.Y < 0 ||
 				    nextPoint.Y > aquarium.GetSize().Height)
-					Direction = (Direction + Math.PI) % 2 * Math.PI;
+					Direction += Math.PI + Math.PI/180*(-45+_random.Next(90));
 				else
 				{
-					var intersections = aquarium.GetObjects().Where(o => o != this && o.Rectangle().IntersectsWith(Rectangle(nextPoint, GetSize())));
+					var intersections = aquarium.GetObjects()
+						.Where(o => o != this && o.Rectangle().IntersectsWith(Rectangle(nextPoint, GetSize())));
 					var gameObjects = intersections as IList<GameObject> ?? intersections.ToList();
 					if (!gameObjects.Any()) return nextPoint;
 					var collisions = gameObjects.OfType<ICollise>();

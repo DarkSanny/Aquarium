@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
+using Aquarium;
 using FakeItEasy;
 using FluentAssertions;
 using NUnit.Framework;
@@ -8,7 +10,7 @@ using NUnit.Framework;
 namespace Aquarium.Tests
 {
 	[TestFixture]
-	public class ObjectCollisionShould
+	public class BlueNeonCollisionShould
 	{
 		private IAquarium _aquarium;
 		private Size _defaultSize;
@@ -21,7 +23,7 @@ namespace Aquarium.Tests
 		public void SetUp()
 		{
 			_aquarium = A.Fake<IAquarium>();
-			_neon1 = new BlueNeon(_aquarium, new Point(10, 10), 0, new Size(20, 10));
+			_neon1 = new BlueNeon(_aquarium, new Point(10, 10), 0, new Size(20, 10)) { IsLeader = true };
 			_neon2 = new BlueNeon(_aquarium, new Point(11, 11), 0, new Size(20, 10));
 			_neon3 = new BlueNeon(_aquarium, new Point(12, 12), 0, new Size(20, 10));
 			_defaultSize = new Size(100, 100);
@@ -29,27 +31,42 @@ namespace Aquarium.Tests
 			_objects = new List<GameObject> { _neon1, _neon2, _neon3 };
 			A.CallTo(() => _aquarium.GetObjects()).Returns(_objects);
 			A.CallTo(() => _aquarium.GetFishes()).Returns(_objects.OfType<Fish>());
-			var typeNeon1 = _neon1.GetType();
-			typeNeon1.GetProperty("IsLeader")?.SetValue(_neon1, true);
 		}
 
 
 		[Test]
-		public void ShouldCollise_WhenLeaderTryColliseNotLeader()
+		public void Collise_WhenLeaderTryColliseNotLeader()
 		{
 			_neon1.IsShouldCollise(_neon2.GetCollisionType()).Should().BeTrue();
 		}
 
 		[Test]
-		public void ShouldNotCollise_WhenNotLeaderTryColliseLeader()
+		public void NotCollise_WhenNotLeaderTryColliseLeader()
 		{
 			_neon2.IsShouldCollise(_neon1.GetCollisionType()).Should().BeFalse();
 		}
 
 		[Test]
-		public void ShouldNotCollise_WhenNotLeaderTryColliseNotLeader()
+		public void NotCollise_WhenNotLeaderTryColliseNotLeader()
 		{
 			_neon3.IsShouldCollise(_neon2.GetCollisionType()).Should().BeFalse();
+		}
+
+		[Test]
+		public void ColliseWithPiranha()
+		{
+			_neon1.IsShouldCollise(ObjectType.Piranha).Should().Be(true);
+		}
+
+		[Test]
+		public void Die_WhenCollisionWithPiranha()
+		{
+			var piranha = A.Fake<Fish>();
+			var counter = 0;
+			_neon1.ShouldDie += () => counter++; 
+			A.CallTo(() => piranha.GetCollisionType()).Returns(ObjectType.Piranha);
+			 _neon1.Collision(ObjectType.Piranha, piranha);
+			counter.Should().Be(1);
 		}
 	}
 }

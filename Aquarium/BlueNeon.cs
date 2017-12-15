@@ -8,15 +8,16 @@ namespace Aquarium
     {
         private readonly IAquarium _aquarium;
         private Point _location;
-        public bool IsLeader { get; private set; }
+        public bool IsLeader { get; set; }
 
-        public BlueNeon(IAquarium aquarium, Point location, double direction, Size size) : base(new BlueNeonBrain(), size)
+        public BlueNeon(IAquarium aquarium, Point location, double direction, Size size) : base(size)
         {
             _aquarium = aquarium;
             _location = location;
             Speed = 5;
             Force = 0;
             Direction = direction;
+			SetBrain(new BlueNeonBrain(this, aquarium));
         }
 
         public override void Collision(ObjectType objectType, GameObject obj)
@@ -43,27 +44,8 @@ namespace Aquarium
 
         public override void Move()
         {
-			/*/
-			 * todo: в этом метсте должен думать мозг, события установят напраыление и после нужно просто попробывать сдвинуться вперед
-			 * все что снизу это простая реализация интелекта для рыбы, нужен автомат
-			 * /*/
-			if (!IsLeader && Target == null) 
-                Target = _aquarium
-                    .GetFishes()
-                    .OfType<BlueNeon>()
-                    .FirstOrDefault(bn => bn.IsLeader);
-            if (Target == null) IsLeader = true;
-            if (IsLeader)
-            {
-                _location = GetNextPoint(_aquarium);
-            }
-            else if (Target != null)
-            {
-	            var targetLocation = Target.GetLocation();
-	            var vector = new Vector(targetLocation.X - _location.X, targetLocation.Y - _location.Y);
-	            Direction = vector.Angle;
-	            _location = GetNextPoint(_aquarium);
-            }
+			Brain.Think();
+	        _location = GetNextPoint(_aquarium);
         }
     }
 }
