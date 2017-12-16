@@ -13,6 +13,7 @@ namespace Aquarium.Brains
 		private readonly Stack<Action> _states;
 		private static readonly HashSet<ObjectType> NaturalEnemies = new HashSet<ObjectType>() { ObjectType.Piranha };
 		private GameObject _danger;
+		private const int DangerRadius = 150;
 
 		public BlueNeonBrain(BlueNeon neon, IAquarium aquarium)
 		{
@@ -39,7 +40,7 @@ namespace Aquarium.Brains
 				.ToList();
 			if (dangerous.Count == 0) return (false, null);
 			var danger = dangerous.MinItem(f => f.DistanceTo(_neon));
-			return danger != null ? (true, danger) : (false, null);
+			return danger == null ? (false, null) : _neon.DistanceTo(danger) < DangerRadius ? (true, danger) : (false, null);
 		}
 
 		private void MoveToTarget()
@@ -75,7 +76,10 @@ namespace Aquarium.Brains
 			var neonLocation = _neon.GetLocation();
 			var vector = new Vector(targetLocation.X - neonLocation.X, targetLocation.Y - neonLocation.Y);
 			OnDirectionChanged(vector.Angle + Math.PI);
-			if (_neon.DistanceTo(_danger) < 50)	_states.Push(MoveFromDangerous);
+			if (_neon.DistanceTo(_danger) < DangerRadius)
+				_states.Push(MoveFromDangerous);
+			else
+				_danger = null;
 		}
 
 		public override void Think()
