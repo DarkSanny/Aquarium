@@ -11,7 +11,7 @@ namespace Aquarium.UI
         public void DrawObject(Graphics graphics, GameObject gameObject)
         {
             if (!_imageFactory.ContainsKey(gameObject.GetType()))
-                _imageFactory.Add(gameObject.GetType(), new ImageSource(gameObject.ToString()));
+                _imageFactory.Add(gameObject.GetType(), new ImageSource(nameof(gameObject)));
             graphics.DrawImage(_imageFactory[gameObject.GetType()].GetImage(), gameObject.GetLocation());
         }
     }
