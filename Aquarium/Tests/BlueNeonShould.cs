@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using Aquarium.Aquariums;
 using Aquarium.Fishes;
 using FakeItEasy;
 using FluentAssertions;

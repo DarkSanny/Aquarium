@@ -14,7 +14,7 @@ namespace Aquarium
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new GameForm(new Aquarium(new Size(500, 500), 10)));
+            Application.Run(new GameForm(new Aquariums.SimpleAquarium(new Size(500, 500), 10)));
         }
     }
 }

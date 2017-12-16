@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using Aquarium.Aquariums;
 using Aquarium.Fishes;
 using FakeItEasy;
 using FluentAssertions;

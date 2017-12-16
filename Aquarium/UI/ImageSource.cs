@@ -6,7 +6,7 @@ namespace Aquarium.UI
     public class ImageSource : IImage
     {
         private readonly List<Bitmap> _sprites;
-        private int _animationCounter;
+        private readonly int _animationCounter;
         private int _animationIndex;
         private int _counter;
 
@@ -22,12 +22,10 @@ namespace Aquarium.UI
         public Bitmap GetImage()
         {
             _counter--;
-            if (_counter < 0)
-            {
-                _counter = _animationCounter;
-                _animationIndex = (_animationIndex + 1) % _sprites.Count;
-            }
-            return _sprites[_animationIndex];
+	        if (_counter >= 0) return _sprites[_animationIndex];
+	        _counter = _animationCounter;
+	        _animationIndex = (_animationIndex + 1) % _sprites.Count;
+	        return _sprites[_animationIndex];
         }
     }
 }

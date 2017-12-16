@@ -62,7 +62,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Aquarium.cs" />
+    <Compile Include="Aquariums\SimpleAquarium.cs" />
+    <Compile Include="Aquariums\IObjectProvider.cs" />
+    <Compile Include="Aquariums\ObjectRandomizer.cs" />
     <Compile Include="Fishes\BlueNeon.cs" />
     <Compile Include="Brains\BlueNeonBrain.cs" />
     <Compile Include="Brains\Brain.cs" />
@@ -72,7 +74,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GameObject.cs" />
-    <Compile Include="IAquarium.cs" />
+    <Compile Include="Aquariums\IAquarium.cs" />
     <Compile Include="ICollise.cs" />
     <Compile Include="IObject.cs" />
     <Compile Include="Program.cs" />

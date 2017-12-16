@@ -4,21 +4,22 @@ using FluentAssertions;
 using System.Drawing;
 using System.Linq;
 using Aquarium.Fishes;
+using Aquarium.Aquariums;
 
 namespace Aquarium.Tests
 {
 	[TestFixture]
 	public class AquariumShould
 	{
-        private Aquarium _aquarium;
+        private SimpleAquarium _aquarium;
         private GameObject _object;
-        private Size _defaultSize = new Size(100, 50);
-        private int _defaultFishCount = 4;
+        private readonly Size _defaultSize = new Size(1000, 1000);
+		private const int DefaultFishCount = 4;
 
-        [SetUp]
+		[SetUp]
         public void SetUp ()
         {
-            _aquarium = new Aquarium(_defaultSize, _defaultFishCount);
+            _aquarium = new SimpleAquarium(_defaultSize, DefaultFishCount);
             _object = A.Fake<GameObject>();
         }
 
@@ -32,7 +33,7 @@ namespace Aquarium.Tests
         public void HaveSameCountFishes()
         {
             _aquarium.AddGameObject(_object);
-            _aquarium.GetFishes().ToList().Count.Should().Be(_defaultFishCount);
+            _aquarium.GetFishes().ToList().Count.Should().Be(DefaultFishCount);
         }
 
         [Test]
@@ -40,8 +41,8 @@ namespace Aquarium.Tests
         {
             var fish = _aquarium.GetFishes().FirstOrDefault();
             var fish2 = A.Fake<Fish>();
-            fish.Collision(ObjectType.Piranha, fish2);
-            _aquarium.GetFishes().ToList().Count.Should().Be(_defaultFishCount);
+	        fish?.Collision(ObjectType.Piranha, fish2);
+	        _aquarium.GetFishes().ToList().Count.Should().Be(DefaultFishCount);
         }
 
         [Test]
@@ -49,16 +50,16 @@ namespace Aquarium.Tests
         {
             var fish = _aquarium.GetFishes().FirstOrDefault();
             var fish2 = A.Fake<Fish>();
-            fish.Collision(ObjectType.Piranha, fish2);
-            _aquarium.Update();
-            _aquarium.GetFishes().ToList().Count.Should().Be(_defaultFishCount - 1);
+	        fish?.Collision(ObjectType.Piranha, fish2);
+	        _aquarium.Update();
+            _aquarium.GetFishes().ToList().Count.Should().Be(DefaultFishCount - 1);
         }
 
         [Test]
         public void HaveCorrectObjectCount()
         {
             _aquarium.AddGameObject(_object);
-            _aquarium.GetObjects().ToList().Count.Should().Be(_defaultFishCount + 1);
+            _aquarium.GetObjects().ToList().Count.Should().Be(DefaultFishCount + 1);
         }
 
 	}
