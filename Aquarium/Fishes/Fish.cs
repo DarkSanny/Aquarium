@@ -21,18 +21,12 @@ namespace Aquarium.Fishes
 
 		public double Direction
 		{
-			get
-            {
-                return _direction;
-            }
-			protected set
-            {
-                _direction = value % (2 * Math.PI);
-            }
+			get => _direction;
+			protected set => _direction = (value + (2 * Math.PI)) % (2 * Math.PI);
 		}
 		public double Speed { get; protected set; }
 		public int Force { get; protected set; }
-		public Fish Target { get; protected set; }
+		public Fish Target { get; set; }
 
 		protected Fish(Size size)
 		{

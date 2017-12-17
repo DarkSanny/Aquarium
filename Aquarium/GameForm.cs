@@ -1,7 +1,7 @@
-﻿using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using Aquarium.Aquariums;
+using Aquarium.UI;
+using Timer = System.Windows.Forms.Timer;
 
 namespace Aquarium
 {
@@ -20,24 +20,26 @@ namespace Aquarium
 		private void Init()
 		{
 			Render();
-			var updates = new Timer() { Interval = 1000 / 30 };
+			var updates = new Timer() {Interval = 1000 / 40};
 			updates.Tick += (sender, args) =>
 			{
 				_aquarium.Update();
+				Invalidate();
 			};
-			var render = new Timer() { Interval = 1 };
-			render.Tick += (sender, args) => { Invalidate(); };
+			//var render = new Timer() {Interval = 1000 / 30};
+			//render.Tick += (sender, args) => { Invalidate(); };
 			updates.Start();
-			render.Start();
+			//render.Start();
 		}
 
 		private void Render()
 		{
+			var drawer = new ObjectDrawer();
 			Paint += (sender, args) =>
 			{
 				foreach (var gameObject in _aquarium.GetObjects())
 				{
-					args.Graphics.FillRectangle(Brushes.BlueViolet, gameObject.Rectangle());
+					drawer.DrawObject(args.Graphics, gameObject);
 				}
 			};
 		}
