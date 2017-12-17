@@ -18,6 +18,10 @@ namespace Aquarium.UI
 
 	    public static readonly Dictionary<string, List<Bitmap>> LoadedImages = new Dictionary<string, List<Bitmap>>();
 
+	    public ImageSource(string objectName, int animationCounter)	 : this(objectName, animationCounter, null)
+	    { 
+	    }
+
         public ImageSource(string objectName, int animationCounter, GameObject gameObject)
         {
 	        if (LoadedImages.ContainsKey(objectName))

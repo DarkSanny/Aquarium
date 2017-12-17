@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Drawing;
+using System.Windows.Forms;
 using Aquarium.Aquariums;
 using Aquarium.UI;
 using Timer = System.Windows.Forms.Timer;
@@ -8,11 +9,12 @@ namespace Aquarium
 	public sealed class GameForm : Form
 	{
 		private readonly IAquarium _aquarium;
-
+		private Size _defaultSize;
 		public GameForm(IAquarium aquarium)
 		{
 			DoubleBuffered = true;
 			Size = aquarium.GetSize();
+			_defaultSize = Size;
 			_aquarium = aquarium;
 			Init();
 		}
@@ -26,17 +28,16 @@ namespace Aquarium
 				_aquarium.Update();
 				Invalidate();
 			};
-			//var render = new Timer() {Interval = 1000 / 30};
-			//render.Tick += (sender, args) => { Invalidate(); };
 			updates.Start();
-			//render.Start();
 		}
 
 		private void Render()
 		{
 			var drawer = new ObjectDrawer();
+			var aquariumImage = new ImageSource("aquarium_", 5);
 			Paint += (sender, args) =>
 			{
+				args.Graphics.DrawImage(aquariumImage.GetImage(), 0, 0, _defaultSize.Width, _defaultSize.Height);
 				foreach (var gameObject in _aquarium.GetObjects())
 				{
 					drawer.DrawObject(args.Graphics, gameObject);
