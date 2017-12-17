@@ -65,11 +65,13 @@
     <Compile Include="Aquariums\SimpleAquarium.cs" />
     <Compile Include="Aquariums\IObjectProvider.cs" />
     <Compile Include="Aquariums\ObjectRandomizer.cs" />
+    <Compile Include="Brains\CatfishBrain.cs" />
     <Compile Include="Brains\PiranhaBrain.cs" />
     <Compile Include="Fishes\BlueNeon.cs" />
     <Compile Include="Brains\BlueNeonBrain.cs" />
     <Compile Include="Brains\Brain.cs" />
     <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="Fishes\Catfish.cs" />
     <Compile Include="Fishes\Fish.cs" />
     <Compile Include="Fishes\Piranha.cs" />
     <Compile Include="GameForm.cs">

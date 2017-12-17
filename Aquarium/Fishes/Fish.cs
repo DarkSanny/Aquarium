@@ -10,7 +10,8 @@ namespace Aquarium.Fishes
 	public enum ObjectType
 	{
 		BlueNeon,
-		Piranha
+		Piranha,
+		Catfish
 	}
 
 	public abstract class Fish : GameObject, ICollise

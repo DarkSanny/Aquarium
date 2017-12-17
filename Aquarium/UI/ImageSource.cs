@@ -16,12 +16,12 @@ namespace Aquarium.UI
         private int _counter;
 	    private bool _isRight;
 
-		private static readonly Dictionary<string, List<Bitmap>> _loadedImages = new Dictionary<string, List<Bitmap>>();
+	    public static readonly Dictionary<string, List<Bitmap>> LoadedImages = new Dictionary<string, List<Bitmap>>();
 
         public ImageSource(string objectName, int animationCounter, GameObject gameObject)
         {
-	        if (_loadedImages.ContainsKey(objectName))
-		        _sprites = _loadedImages[objectName];
+	        if (LoadedImages.ContainsKey(objectName))
+		        _sprites = LoadedImages[objectName];
 	        else
 	        {
 				var loader = new ImageLoaderFromFile(objectName);

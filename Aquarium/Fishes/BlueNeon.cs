@@ -38,7 +38,6 @@ namespace Aquarium.Fishes
 
         public override bool IsShouldCollise(ObjectType objectType)
         {
-			// todo: false если рыбу нельзя съесть
             return objectType != GetCollisionType() || IsLeader;
         }
 
