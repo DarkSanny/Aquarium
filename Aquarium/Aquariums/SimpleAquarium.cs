@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using Aquarium.Fishes;
@@ -21,7 +20,6 @@ namespace Aquarium.Aquariums
 			foreach (var fish in GetFishes())
 				fish.ShouldDie += () => _deadFishes.Push(fish);
 			_deadFishes = new Stack<GameObject>();
-			_objects.Add(new Piranha(this, new Point(50, 50), Math.PI/3, new Size(70, 40)));
 		}
 
         public void AddGameObject(GameObject gameObject)
