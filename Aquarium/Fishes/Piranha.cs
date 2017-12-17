@@ -27,8 +27,9 @@ namespace Aquarium.Fishes
 		public override void Collision(ObjectType objectType, GameObject obj)
 		{
 			if (objectType == GetCollisionType()) return;
-			if (objectType != ObjectType.BlueNeon) 
+			if (objectType != ObjectType.BlueNeon)
 				OnShouldDie();
+			else Target = null;
 		}
 
 		public override ObjectType GetCollisionType()

@@ -20,11 +20,14 @@ namespace Aquarium.Aquariums
 			foreach (var fish in GetFishes())
 				fish.ShouldDie += () => _deadFishes.Push(fish);
 			_deadFishes = new Stack<GameObject>();
+			AddGameObject(new Piranha(this, new Point(50, 50), 0, new Size(60, 40)));
 		}
 
         public void AddGameObject(GameObject gameObject)
         {
             _objects.Add(gameObject);
+	        if (gameObject is Fish fish)
+		        fish.ShouldDie += () => _deadFishes.Push(fish);
         }
 
 		public Size GetSize()
@@ -49,6 +52,12 @@ namespace Aquarium.Aquariums
 				_objects.Remove(gameObject);
 			}
 			GetFishes().ToList().ForEach(i => i.Move());
+			var fishes = GetFishes().ToList();
+			foreach (var fish in fishes)
+			{
+				var f1 = fishes.Where(f => f != fish).Where(f => f.Rectangle().IntersectsWith(fish.Rectangle()));
+				f1.ToList().ForEach(f => f.Collision(fish.GetCollisionType(), fish));
+			}
 		}
 	}
 }
