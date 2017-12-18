@@ -19,6 +19,7 @@ namespace Aquarium.UI
             var dir = new DirectoryInfo("Resources");
             _images = dir
                 .EnumerateFiles(gameObject + "*.png")
+				.OrderBy(file => int.Parse(Path.GetFileNameWithoutExtension(file.FullName).Substring(gameObject.Length)))
                 .Select(file => (Bitmap)Image.FromFile(file.FullName))
                 .ToList();
         }

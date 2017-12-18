@@ -22,7 +22,7 @@ namespace Aquarium
 		private void Init()
 		{
 			Render();
-			var updates = new Timer() {Interval = 1000 / 40};
+			var updates = new Timer() {Interval = 1000 / 60};
 			updates.Tick += (sender, args) =>
 			{
 				_aquarium.Update();
@@ -34,7 +34,7 @@ namespace Aquarium
 		private void Render()
 		{
 			var drawer = new ObjectDrawer();
-			var aquariumImage = new ImageSource("aquarium_", 5);
+			var aquariumImage = new ImageSource("aquarium_", 2);
 			Paint += (sender, args) =>
 			{
 				args.Graphics.DrawImage(aquariumImage.GetImage(), 0, 0, _defaultSize.Width, _defaultSize.Height);
