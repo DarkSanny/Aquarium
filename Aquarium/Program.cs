@@ -20,7 +20,8 @@ namespace Aquarium
 			var provider = new ObjectRandomizer(aquarium)
 				.AddObject(ObjectType.BlueNeon, 10)
 				.AddObject(ObjectType.Piranha, 1)
-				.AddObject(ObjectType.Catfish, 2);
+				.AddObject(ObjectType.Catfish, 2)
+				.AddObject(ObjectType.Swordfish, 3);
 			aquarium.Start(provider);
             Application.Run(new GameForm(aquarium));
         }

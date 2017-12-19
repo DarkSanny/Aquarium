@@ -67,6 +67,7 @@
     <Compile Include="Aquariums\ObjectRandomizer.cs" />
     <Compile Include="Brains\CatfishBrain.cs" />
     <Compile Include="Brains\PiranhaBrain.cs" />
+    <Compile Include="Brains\SwordfishBrain.cs" />
     <Compile Include="Fishes\BlueNeon.cs" />
     <Compile Include="Brains\BlueNeonBrain.cs" />
     <Compile Include="Brains\Brain.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Fishes\Catfish.cs" />
     <Compile Include="Fishes\Fish.cs" />
     <Compile Include="Fishes\Piranha.cs" />
+    <Compile Include="Fishes\Swordfish.cs" />
     <Compile Include="GameForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -17,7 +17,7 @@ namespace Aquarium.Fishes
 			_aquarium = aquarium;
 			_location = location;
 			Direction = direction;
-			Speed = 2;
+			Speed = 5;
 			Force = 2;
 			_sleep = 1000;
 			SetBrain(new CatfishBrain(this, aquarium));

@@ -14,7 +14,7 @@ namespace Aquarium.Fishes
         {
             _aquarium = aquarium;
             _location = location;
-            Speed = 7;
+            Speed = 10;
             Force = 0;
             Direction = direction;
 			SetBrain(new BlueNeonBrain(this, aquarium));

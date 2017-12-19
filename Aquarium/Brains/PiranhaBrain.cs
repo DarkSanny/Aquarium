@@ -12,6 +12,7 @@ namespace Aquarium.Brains
 		private readonly IAquarium _aquarium;
 		private readonly Stack<Action> _states;
 		private static readonly HashSet<ObjectType> Food = new HashSet<ObjectType>() {ObjectType.BlueNeon};
+		private static int _visorRadius = 300;
 
 		public PiranhaBrain(Piranha piranha, IAquarium aquarium)
 		{
@@ -36,7 +37,7 @@ namespace Aquarium.Brains
 		private void MoveToTarget()
 		{
 			if (_piranha.Target == null) return;
-			if (_piranha.DistanceTo(_piranha.Target) > 200)
+			if (_piranha.DistanceTo(_piranha.Target) > _visorRadius)
 			{
 				OnTargetChanged(null);
 				return;

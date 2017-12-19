@@ -11,7 +11,8 @@ namespace Aquarium.Fishes
 	{
 		BlueNeon,
 		Piranha,
-		Catfish
+		Catfish,
+		Swordfish
 	}
 
 	public abstract class Fish : GameObject, ICollise
