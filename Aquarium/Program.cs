@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using Aquarium.Aquariums;
+using Aquarium.Fishes;
 
 namespace Aquarium
 {
@@ -14,7 +16,13 @@ namespace Aquarium
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new GameForm(new Aquariums.SimpleAquarium(new Size(1000, 800), 10)));
+			var aquarium = new SimpleAquarium(new Size(1000, 800));
+			var provider = new ObjectRandomizer(aquarium)
+				.AddObject(ObjectType.BlueNeon, 10)
+				.AddObject(ObjectType.Piranha, 1)
+				.AddObject(ObjectType.Catfish, 2);
+			aquarium.Start(provider);
+            Application.Run(new GameForm(aquarium));
         }
     }
 }

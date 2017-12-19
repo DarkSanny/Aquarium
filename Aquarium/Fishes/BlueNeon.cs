@@ -41,8 +41,8 @@ namespace Aquarium.Fishes
         public override bool IsShouldCollise(IObject obj)
         {
 	        if (!(obj is ICollise)) return true;
-	        var colliser = (ICollise)obj;
-			return colliser.GetCollisionType() != GetCollisionType() || IsLeader;
+	        var collise = (ICollise) obj;
+	        return collise.GetCollisionType() == GetCollisionType() && IsLeader;
         }
 
         public override void Move()

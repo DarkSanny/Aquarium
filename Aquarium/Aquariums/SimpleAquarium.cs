@@ -9,26 +9,25 @@ namespace Aquarium.Aquariums
 	public class SimpleAquarium : IAquarium
 	{
 		private readonly Size _size;
-		private readonly List<GameObject> _objects;
+		private List<GameObject> _objects;
 		private readonly Stack<GameObject> _deadFishes;
 
-		public SimpleAquarium(Size size, int fishCount)
+		public SimpleAquarium(Size size)
 		{
 			_size = size;
-			_objects = new ObjectRandomizer(this)
-				.AddObject(ObjectType.BlueNeon, fishCount)
-				.GetObjects();
+			_deadFishes = new Stack<GameObject>();
+		}
+
+		public void Start(IObjectProvider provider)
+		{
+			_objects = provider.GetObjects();
 			foreach (var fish in GetFishes())
 				fish.ShouldDie += () => _deadFishes.Push(fish);
 			foreach (var blueNeon in GetFishes().OfType<BlueNeon>())
-			{
-				blueNeon.ShouldDie += () => GetFishes().OfType<BlueNeon>().ToList().ForEach(f => f.Target = null);
-			}
-			_deadFishes = new Stack<GameObject>();
-			AddGameObject(new Piranha(this, new Point(50, 50), Math.PI/3, new Size(60, 40)));
+				blueNeon.ShouldDie += () => GetFishes().OfType<BlueNeon>().Where(f => f == blueNeon).ToList().ForEach(f => f.Target = null);
 		}
 
-        public void AddGameObject(GameObject gameObject)
+        private void AddGameObject(GameObject gameObject)
         {
             _objects.Add(gameObject);
 	        if (gameObject is Fish fish)

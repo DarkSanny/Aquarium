@@ -15,7 +15,9 @@ namespace Aquarium.Aquariums
 		private static readonly Dictionary<ObjectType, Func<IAquarium, Point,double, Size, GameObject>> ObjectBuilder 
 			= new Dictionary<ObjectType, Func<IAquarium, Point, double, Size, GameObject>>()
 			{
-				[ObjectType.BlueNeon] = (a, p, d, s) => new BlueNeon(a, p, d, s)
+				[ObjectType.BlueNeon] = (a, p, d, s) => new BlueNeon(a, p, d, s),
+				[ObjectType.Piranha] = (a, p, d, s) => new Piranha(a, p, d, s),
+				[ObjectType.Catfish] = (a, p, d, s) => new Catfish(a, p, d, s)
 			};
 
 		public ObjectRandomizer(IAquarium aquarium)
@@ -44,7 +46,7 @@ namespace Aquarium.Aquariums
 			var result = new List<GameObject>();
 			var random = new Random();
 			var aquariumSize = _aquarium.GetSize();
-			var defaultSize = new Size(50, 20);
+			var defaultSize = new Size(100, 60);
 			foreach (var objectsCounterKey in _objectsCounter.Keys)
 			{
 				var counter = _objectsCounter[objectsCounterKey];

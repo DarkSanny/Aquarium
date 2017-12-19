@@ -11,7 +11,8 @@ namespace Aquarium.UI
 		private static readonly Dictionary<Type, string> ObjectNames = new Dictionary<Type, string>()
 		{
 			[typeof(BlueNeon)] = "BlueNeon",
-			[typeof(Piranha)] = "Piranha"
+			[typeof(Piranha)] = "Piranha" ,
+			[typeof(Catfish)] = "CatFish"
 		};
 
         public void DrawObject(Graphics graphics, GameObject gameObject)
