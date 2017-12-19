@@ -363,9 +363,29 @@ namespace Aquarium.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap CatFish1 {
+            get {
+                object obj = ResourceManager.GetObject("CatFish1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Piranha {
             get {
                 object obj = ResourceManager.GetObject("Piranha", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SwordFish1 {
+            get {
+                object obj = ResourceManager.GetObject("SwordFish1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
