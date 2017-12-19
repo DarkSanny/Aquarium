@@ -14,7 +14,7 @@ namespace Aquarium.Fishes
 			_aquarium = aquarium;
 			_location = location;
 			Direction = direction;
-			Speed = 5;
+			Speed = 8;
 			Force = 1;
 			SetBrain(new PiranhaBrain(this, _aquarium));
 		}

@@ -22,7 +22,7 @@ namespace Aquarium
 		private void Init()
 		{
 			Render();
-			var updates = new Timer() {Interval = 1000 / 60};
+			var updates = new Timer() {Interval = 1000 / 30};
 			updates.Tick += (sender, args) =>
 			{
 				_aquarium.Update();

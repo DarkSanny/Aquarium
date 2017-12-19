@@ -12,7 +12,8 @@ namespace Aquarium.UI
 		{
 			[typeof(BlueNeon)] = "BlueNeon",
 			[typeof(Piranha)] = "Piranha" ,
-			[typeof(Catfish)] = "CatFish"
+			[typeof(Catfish)] = "CatFish",
+			[typeof(Swordfish)]	= "SwordFish"
 		};
 
         public void DrawObject(Graphics graphics, GameObject gameObject)
