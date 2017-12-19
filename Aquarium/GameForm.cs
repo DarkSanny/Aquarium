@@ -34,7 +34,7 @@ namespace Aquarium
 		private void Render()
 		{
 			var drawer = new ObjectDrawer();
-			var aquariumImage = new ImageSource("aquarium_", 2);
+			var aquariumImage = new ImageSource("aquarium_", 1);
 			Paint += (sender, args) =>
 			{
 				args.Graphics.DrawImage(aquariumImage.GetImage(), 0, 0, _defaultSize.Width, _defaultSize.Height);

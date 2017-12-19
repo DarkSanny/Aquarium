@@ -14,15 +14,17 @@ namespace Aquarium.Fishes
         {
             _aquarium = aquarium;
             _location = location;
-            Speed = 5;
+            Speed = 7;
             Force = 0;
             Direction = direction;
 			SetBrain(new BlueNeonBrain(this, aquarium));
         }
 
-        public override void Collision(ObjectType objectType, GameObject obj)
+        public override void Collision(IObject obj)
         {
-	        if (objectType == GetCollisionType()) return;
+	        if (!(obj is ICollise)) return;
+	        var colliser = (ICollise) obj;
+	        if (colliser.GetCollisionType() == GetCollisionType()) return;
 	        OnShouldDie();
         }
 
@@ -36,9 +38,11 @@ namespace Aquarium.Fishes
             return _location;
         }
 
-        public override bool IsShouldCollise(ObjectType objectType)
+        public override bool IsShouldCollise(IObject obj)
         {
-            return objectType != GetCollisionType() || IsLeader;
+	        if (!(obj is ICollise)) return true;
+	        var colliser = (ICollise)obj;
+			return colliser.GetCollisionType() != GetCollisionType() || IsLeader;
         }
 
         public override void Move()

@@ -61,7 +61,7 @@ namespace Aquarium.Aquariums
 			foreach (var fish in fishes)
 			{
 				var f1 = fishes.Where(f => f != fish).Where(f => f.Rectangle().IntersectsWith(fish.Rectangle()));
-				f1.ToList().ForEach(f => f.Collision(fish.GetCollisionType(), fish));
+				f1.ToList().ForEach(f => f.Collision(fish));
 			}
 		}
 	}

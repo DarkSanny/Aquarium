@@ -14,7 +14,7 @@ namespace Aquarium.Fishes
 			_aquarium = aquarium;
 			_location = location;
 			Direction = direction;
-			Speed = 3;
+			Speed = 5;
 			Force = 1;
 			SetBrain(new PiranhaBrain(this, _aquarium));
 		}
@@ -24,10 +24,12 @@ namespace Aquarium.Fishes
 			return _location;
 		}
 
-		public override void Collision(ObjectType objectType, GameObject obj)
+		public override void Collision(IObject obj)
 		{
-			if (objectType == GetCollisionType()) return;
-			if (objectType != ObjectType.BlueNeon)
+			if (!(obj is ICollise)) return;
+			var colliser = (ICollise)obj;
+			if (colliser.GetCollisionType() == GetCollisionType()) return;
+			if (colliser.GetCollisionType() != ObjectType.BlueNeon)
 				OnShouldDie();
 			else Target = null;
 		}
@@ -37,9 +39,15 @@ namespace Aquarium.Fishes
 			return ObjectType.Piranha;
 		}
 
-		public override bool IsShouldCollise(ObjectType objectType)
+		public override bool IsShouldCollise(IObject obj)
 		{
-			return objectType == ObjectType.BlueNeon;
+			if (!(obj is ICollise)) return true;
+			if (obj is Fish fish)
+			{
+				if (fish.Force < Force) return true;
+			}
+			var colliser = (ICollise)obj;
+			return colliser.GetCollisionType() == ObjectType.BlueNeon;
 		}
 
 		public override void Move()

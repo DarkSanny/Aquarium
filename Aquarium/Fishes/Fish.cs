@@ -46,13 +46,14 @@ namespace Aquarium.Fishes
 			return _size;
 		}
 
-		public abstract void Collision(ObjectType objectType, GameObject obj);
+
+		public abstract void Collision(IObject obj);
 
 		public abstract ObjectType GetCollisionType();
+		public abstract bool IsShouldCollise(IObject obj);
 
 		public abstract void Move();
 
-		public abstract bool IsShouldCollise(ObjectType objectType);
 
 		protected Point GetNextPoint(IAquarium aquarium)
 		{
@@ -68,7 +69,7 @@ namespace Aquarium.Fishes
 					var gameObjects = intersections as IList<GameObject> ?? intersections.ToList();
 					if (!gameObjects.Any()) return nextPoint;
 					var collisions = gameObjects.OfType<ICollise>();
-					if (collisions.All(c => IsShouldCollise(c.GetCollisionType()))) return nextPoint;
+					if (collisions.Where(c => c is IObject).All(c => IsShouldCollise((IObject)c))) return nextPoint;
 					return GetLocation();
 				}
 			}

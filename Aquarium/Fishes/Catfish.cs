@@ -9,8 +9,8 @@ namespace Aquarium.Fishes
 	{
 		private readonly IAquarium _aquarium;
 		private Point _location;
-		private int sleep;
-		private Random random = new Random();
+		private int _sleep;
+		private readonly Random _random = new Random();
 
 		public Catfish(IAquarium aquarium, Point location, double direction,  Size size) : base(size)
 		{
@@ -25,8 +25,9 @@ namespace Aquarium.Fishes
 			return _location;
 		}
 
-		public override void Collision(ObjectType objectType, GameObject obj)
+		public override void Collision(IObject obj)
 		{
+			if (!(obj is ICollise)) return;
 			OnShouldDie();
 		}
 
@@ -35,19 +36,19 @@ namespace Aquarium.Fishes
 			return ObjectType.Catfish;
 		}
 
-		public override bool IsShouldCollise(ObjectType objectType)
+		public override bool IsShouldCollise(IObject obj)
 		{
 			return false;
 		}
 
 		public override void Move()
 		{
-			sleep--;
-			if (sleep < 0) return;
+			_sleep--;
+			if (_sleep < 0) return;
 			Brain.Think();
 			_location = GetNextPoint(_aquarium);
-			if (sleep < 50)
-				sleep = random.Next(10) == 0 ? random.Next(50) : sleep;
+			if (_sleep < 50)
+				_sleep = _random.Next(10) == 0 ? _random.Next(50) : _sleep;
 		}
 	}
 }
