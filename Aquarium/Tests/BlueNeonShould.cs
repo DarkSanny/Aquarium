@@ -40,12 +40,6 @@ namespace Aquarium.Tests
          }
  
          [Test]
-         public void SimpleTestForExample()
-         {
-             _neon.GetCollisionType().Should().Be(ObjectType.BlueNeon);
-         }
- 
-         [Test]
          public void HaveSameStartDirection()
          {
              _neon.Direction.Should().Be(_startDirection);
