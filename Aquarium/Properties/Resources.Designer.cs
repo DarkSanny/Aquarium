@@ -363,6 +363,16 @@ namespace Aquarium.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap BlueNeon2 {
+            get {
+                object obj = ResourceManager.GetObject("BlueNeon2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap CatFish1 {
             get {
                 object obj = ResourceManager.GetObject("CatFish1", resourceCulture);
@@ -383,9 +393,49 @@ namespace Aquarium.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Piranha2 {
+            get {
+                object obj = ResourceManager.GetObject("Piranha2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap SwordFish1 {
             get {
                 object obj = ResourceManager.GetObject("SwordFish1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SwordFish2 {
+            get {
+                object obj = ResourceManager.GetObject("SwordFish2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SwordFish3 {
+            get {
+                object obj = ResourceManager.GetObject("SwordFish3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SwordFish4 {
+            get {
+                object obj = ResourceManager.GetObject("SwordFish4", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
