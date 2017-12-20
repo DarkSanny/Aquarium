@@ -20,7 +20,7 @@ namespace Aquarium.UI
         {
 	        if (!(gameObject is IDrawable)) return;
             if (!_imageFactory.ContainsKey(gameObject))
-                _imageFactory.Add(gameObject, new ImageSource(ObjectNames[gameObject.GetType()], 5, gameObject));
+                _imageFactory.Add(gameObject, new ImageSource(ObjectNames[gameObject.GetType()], 2, gameObject));
             graphics.DrawImage(_imageFactory[gameObject].GetImage(), gameObject.Rectangle());
         }
     }
