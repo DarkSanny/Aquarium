@@ -12,8 +12,7 @@ namespace Aquarium.Fishes
 		BlueNeon,
 		Piranha,
 		Catfish,
-		Swordfish,
-		NotCollise
+		Swordfish
 	}
 
 	public abstract class Fish : GameObject

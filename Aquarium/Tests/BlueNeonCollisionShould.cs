@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
+﻿using System.Drawing;
 using Aquarium.Aquariums;
 using Aquarium.Fishes;
 using FakeItEasy;
@@ -15,59 +13,58 @@ namespace Aquarium.Tests
 		private IAquarium _aquarium;
 		private Size _defaultSize;
 		private BlueNeon _neon1;
-		private BlueNeon _neon2;
-		private BlueNeon _neon3;
-		private IEnumerable<GameObject> _objects;
+		private Point _defaultPostition;
 
 		[SetUp]
 		public void SetUp()
 		{
 			_aquarium = A.Fake<IAquarium>();
-			_neon1 = new BlueNeon(_aquarium, new Point(10, 10), 0, new Size(20, 10));
-			_neon2 = new BlueNeon(_aquarium, new Point(11, 11), 0, new Size(20, 10));
-			_neon3 = new BlueNeon(_aquarium, new Point(12, 12), 0, new Size(20, 10));
-            _defaultSize = new Size(100, 100);
-			A.CallTo(() => _aquarium.GetSize()).Returns(_defaultSize);
-			_objects = new List<GameObject> { _neon1, _neon2, _neon3 };
-			A.CallTo(() => _aquarium.GetObjects()).Returns(_objects);
-			A.CallTo(() => _aquarium.GetFishes()).Returns(_objects.OfType<Fish>());
+			_defaultPostition = new Point(10, 10);
+			_neon1 = new BlueNeon(_aquarium, _defaultPostition, 0, new Size(20, 10));
+			_defaultSize = new Size(100, 100);
 		}
 
+		[Test]
+		public void ShouldHaveCorrectType()
+		{
+			_neon1.GetCollisionType().Should().Be(ObjectType.BlueNeon);
+		}
 
 		[Test]
-		public void Collise_WhenLeaderTryColliseNotLeader()
+		public void NotCollise_WithNeon()
 		{
-            _neon1.IsShouldCollise(_neon2).Should().BeTrue();
-        }
+			var neon = new BlueNeon(_aquarium, _defaultPostition, 0, _defaultSize);
+			_neon1.IsShouldCollise(neon).Should().BeFalse();
+		}
 
 		[Test]
-		public void NotCollise_WhenNotLeaderTryColliseLeader()
+		public void NotCollise_WithPiranha()
 		{
-            _neon2.IsShouldCollise(_neon1).Should().BeFalse();
-        }
+			var piranha = new Piranha(_aquarium, _defaultPostition, 0, _defaultSize);
+			_neon1.IsShouldCollise(piranha).Should().BeFalse();
+		}
+		[Test]
+		public void NotCollise_WithCatfish()
+		{
+			var catfish = new Catfish(_aquarium, _defaultPostition, 0, _defaultSize);
+			_neon1.IsShouldCollise(catfish).Should().BeFalse();
+		}
+		[Test]
+		public void NotCollise_WithSwordFish()
+		{
+			var swordfish = new Swordfish(_aquarium, _defaultPostition, 0, _defaultSize);
+			_neon1.IsShouldCollise(swordfish).Should().BeFalse();
+		}
 
 		[Test]
-		public void NotCollise_WhenNotLeaderTryColliseNotLeader()
+		public void DieWhenColision()
 		{
-            _neon3.IsShouldCollise(_neon2).Should().BeFalse();
-        }
-
-		[Test]
-		public void ColliseWithPiranha()
-		{
-            var piranha = A.Fake<Piranha>();
-            _neon1.IsShouldCollise(piranha).Should().BeTrue();
-        }
-
-		[Test]
-		[Ignore("Not implemented")]
-		public void Die_WhenCollisionWithPiranha()
-		{
-			var piranha = A.Fake<Fish>();
+			var anyFishWishCollise = new Piranha(_aquarium, _defaultPostition, 0, _defaultSize);
 			var counter = 0;
-			_neon1.ShouldDie += () => counter++; 
-			//_neon1.Collision(ObjectType.Piranha, piranha);
+			_neon1.ShouldDie += () => counter++;
+			_neon1.Collision(anyFishWishCollise);
 			counter.Should().Be(1);
 		}
+
 	}
 }
