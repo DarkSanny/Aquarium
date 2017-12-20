@@ -68,7 +68,7 @@ namespace Aquarium.Aquariums
 				while (counter > 0)
 				{
 					var point = new Point(random.Next(aquariumSize.Width), random.Next(aquariumSize.Height));
-					if (result.Any(o => o.Rectangle().IntersectsWith(GameObject.Rectangle(point, _defaultSize))))
+					if (result.Any(o => o.Rectangle().IntersectsWith(GameObject.Rectangle(point, objectsCounterKey.Item2))))
 						continue;
 					result.Add(ObjectBuilder[objectsCounterKey.Item1](_aquarium, point, Math.PI/180 * random.Next(360), objectsCounterKey.Item2));
 					counter--;
