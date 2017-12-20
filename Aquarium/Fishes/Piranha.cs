@@ -4,7 +4,7 @@ using Aquarium.Brains;
 
 namespace Aquarium.Fishes
 {
-	public class Piranha : Fish
+	public class Piranha : Fish, IDrawable, ICollise
 	{
 		private readonly IAquarium _aquarium;
 		private Point _location;
@@ -14,7 +14,7 @@ namespace Aquarium.Fishes
 			_aquarium = aquarium;
 			_location = location;
 			Direction = direction;
-			Speed = 8;
+			Speed = 4;
 			Force = 1;
 			SetBrain(new PiranhaBrain(this, _aquarium));
 		}
@@ -24,29 +24,29 @@ namespace Aquarium.Fishes
 			return _location;
 		}
 
-		public override void Collision(IObject obj)
+		public void Collision(IObject obj)
 		{
 			if (!(obj is ICollise)) return;
-			var colliser = (ICollise)obj;
+			var colliser = (ICollise) obj;
 			if (colliser.GetCollisionType() == GetCollisionType()) return;
 			if (colliser.GetCollisionType() != ObjectType.BlueNeon)
 				OnShouldDie();
 			else Target = null;
 		}
 
-		public override ObjectType GetCollisionType()
+		public ObjectType GetCollisionType()
 		{
 			return ObjectType.Piranha;
 		}
 
-		public override bool IsShouldCollise(IObject obj)
+		public bool IsShouldCollise(IObject obj)
 		{
 			if (!(obj is ICollise)) return true;
 			if (obj is Fish fish)
 			{
 				if (fish.Force < Force) return true;
 			}
-			var colliser = (ICollise)obj;
+			var colliser = (ICollise) obj;
 			return colliser.GetCollisionType() == ObjectType.BlueNeon;
 		}
 

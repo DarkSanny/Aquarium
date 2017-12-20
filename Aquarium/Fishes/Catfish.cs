@@ -5,19 +5,19 @@ using Aquarium.Brains;
 
 namespace Aquarium.Fishes
 {
-	public class Catfish : Fish
+	public class Catfish : Fish, IDrawable, ICollise
 	{
 		private readonly IAquarium _aquarium;
 		private Point _location;
 		private int _sleep;
 		private readonly Random _random = new Random();
 
-		public Catfish(IAquarium aquarium, Point location, double direction,  Size size) : base(size)
+		public Catfish(IAquarium aquarium, Point location, double direction, Size size) : base(size)
 		{
 			_aquarium = aquarium;
 			_location = location;
 			Direction = direction;
-			Speed = 5;
+			Speed = 3;
 			Force = 2;
 			_sleep = 1000;
 			SetBrain(new CatfishBrain(this, aquarium));
@@ -28,18 +28,18 @@ namespace Aquarium.Fishes
 			return _location;
 		}
 
-		public override void Collision(IObject obj)
+		public void Collision(IObject obj)
 		{
 			if (!(obj is ICollise)) return;
 			OnShouldDie();
 		}
 
-		public override ObjectType GetCollisionType()
+		public ObjectType GetCollisionType()
 		{
 			return ObjectType.Catfish;
 		}
 
-		public override bool IsShouldCollise(IObject obj)
+		public bool IsShouldCollise(IObject obj)
 		{
 			return false;
 		}

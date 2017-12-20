@@ -14,6 +14,7 @@ namespace Aquarium.Brains
 		private readonly Stack<Action> _states;
 		private Point _lastPosition;
 		private readonly Random _random = new Random();
+		private Point _targetLocation;
 
 		public CatfishBrain(Catfish catfish, IAquarium aquarium)
 		{
@@ -22,6 +23,7 @@ namespace Aquarium.Brains
 			_states = new Stack<Action>();
 			_states.Push(Move);
 			_lastPosition = new Point(0, 0);
+			_targetLocation = new Point(_aquarium.GetSize().Width, _aquarium.GetSize().Width);
 		}
 
 		private void Move()
@@ -35,9 +37,8 @@ namespace Aquarium.Brains
 		{
 			if (_catfish.GetLocation().Y < _aquarium.GetSize().Height - _aquarium.GetSize().Height / 3)
 				_states.Push(MoveDown);
-			var targetLocation = new Point(_aquarium.GetSize().Width, _aquarium.GetSize().Width);
-			var neonLocation = _catfish.GetLocation();
-			var vector = new Vector(targetLocation.X - neonLocation.X, targetLocation.Y - neonLocation.Y);
+			var catfishLocation = _catfish.GetLocation();
+			var vector = new Vector(_targetLocation.X - catfishLocation.X, _targetLocation.Y - catfishLocation.Y);
 			OnDirectionChanged(vector.Angle);
 		}
 
@@ -46,7 +47,7 @@ namespace Aquarium.Brains
 			if (_states.Count != 0)
 				_states.Pop()();
 			if (_lastPosition == _catfish.GetLocation())
-				OnDirectionChanged(_random.Next(360)*Math.PI/180);
+				_targetLocation = new Point(_random.Next(_aquarium.GetSize().Width), _aquarium.GetSize().Height);
 			_lastPosition = _catfish.GetLocation();
 		}
 	}

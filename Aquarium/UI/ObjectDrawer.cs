@@ -18,6 +18,7 @@ namespace Aquarium.UI
 
         public void DrawObject(Graphics graphics, GameObject gameObject)
         {
+	        if (!(gameObject is IDrawable)) return;
             if (!_imageFactory.ContainsKey(gameObject))
                 _imageFactory.Add(gameObject, new ImageSource(ObjectNames[gameObject.GetType()], 5, gameObject));
             graphics.DrawImage(_imageFactory[gameObject].GetImage(), gameObject.Rectangle());

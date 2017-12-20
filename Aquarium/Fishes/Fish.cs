@@ -12,10 +12,11 @@ namespace Aquarium.Fishes
 		BlueNeon,
 		Piranha,
 		Catfish,
-		Swordfish
+		Swordfish,
+		NotCollise
 	}
 
-	public abstract class Fish : GameObject, ICollise
+	public abstract class Fish : GameObject
 	{
 		protected Brain Brain;
 		private readonly Size _size;
@@ -28,7 +29,7 @@ namespace Aquarium.Fishes
 		}
 		public double Speed { get; protected set; }
 		public int Force { get; protected set; }
-		public Fish Target { get; set; }
+		public GameObject Target { get; set; }
 
 		protected Fish(Size size)
 		{
@@ -47,12 +48,6 @@ namespace Aquarium.Fishes
 			return _size;
 		}
 
-
-		public abstract void Collision(IObject obj);
-
-		public abstract ObjectType GetCollisionType();
-		public abstract bool IsShouldCollise(IObject obj);
-
 		public abstract void Move();
 
 
@@ -63,16 +58,18 @@ namespace Aquarium.Fishes
 				var nextPoint = GetCartesianPoint();
 				if (IsOutOfBorder(nextPoint, aquarium))
 					Direction = Bounce(Direction, nextPoint, aquarium);
-				else
+				else if (this is ICollise)
 				{
+					var collise = this as ICollise;
 					var intersections = aquarium.GetObjects()
 						.Where(o => o != this && o.Rectangle().IntersectsWith(Rectangle(nextPoint, GetSize())));
 					var gameObjects = intersections as IList<GameObject> ?? intersections.ToList();
 					if (!gameObjects.Any()) return nextPoint;
 					var collisions = gameObjects.OfType<ICollise>();
-					if (collisions.Where(c => c is IObject).All(c => IsShouldCollise((IObject)c))) return nextPoint;
+					if (collisions.Where(c => c is IObject).All(c => collise.IsShouldCollise((IObject) c))) return nextPoint;
 					return GetLocation();
 				}
+				else return GetCartesianPoint();
 			}
 		}
 

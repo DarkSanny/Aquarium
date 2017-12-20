@@ -20,7 +20,7 @@ namespace Aquarium.Brains
 			_neon = neon;
 			_aquarium = aquarium;
 			_states = new Stack<Action>();
-			_states.Push(_neon.IsLeader ? (Action) Move : MoveToTarget);
+			_states.Push(MoveToTarget);
 		}
 
 		private void Move()
@@ -36,29 +36,30 @@ namespace Aquarium.Brains
 		{
 			var dangerous =  _aquarium
 				.GetFishes()
+				.OfType<ICollise>()
 				.Where(f => NaturalEnemies.Contains(f.GetCollisionType()))
 				.ToList();
 			if (dangerous.Count == 0) return (false, null);
-			var danger = dangerous.MinItem(f => f.DistanceTo(_neon));
+			var danger = (Fish)dangerous.MinItem(f => ((Fish)f).DistanceTo(_neon));
 			return danger == null ? (false, null) : _neon.DistanceTo(danger) < DangerRadius ? (true, danger) : (false, null);
 		}
 
 		private void MoveToTarget()
 		{
-			var target = _neon.Target ?? _aquarium
-											.GetFishes()
-											.Where(f => f != _neon)
-											.OfType<BlueNeon>()
-											.FirstOrDefault(bn => bn.IsLeader);
-			if (_neon.Target != target)	OnTargetChanged(target);
-			if (target == null)
+			var flocks = _aquarium
+				.GetFishes()
+				.OfType<Flock>()
+				.ToList();
+			if (flocks.Count == 0)
 			{
-				_neon.IsLeader = true;
+				OnTargetChanged(null);
 				_states.Push(Move);
 			}
 			else
 			{
-				var targetLocation = target.GetLocation();
+				var shortesFlock = flocks.MinItem(f => f.DistanceTo(_neon));
+				OnTargetChanged(shortesFlock);
+				var targetLocation = shortesFlock.GetLocation();
 				var neonLocation = _neon.GetLocation();
 				var vector = new Vector(targetLocation.X - neonLocation.X, targetLocation.Y - neonLocation.Y);
 				OnDirectionChanged(vector.Angle);

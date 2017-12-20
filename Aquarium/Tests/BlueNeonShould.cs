@@ -31,7 +31,7 @@ namespace Aquarium.Tests
              _startDirection = 0;
              _defaultSize = new Size(100, 50);
              _defaulNeontSize = new Size(20, 10);
-             _neon = new BlueNeon(_aquarium, _startPosition, _startDirection, _defaulNeontSize) { IsLeader = true };
+             _neon = new BlueNeon(_aquarium, _startPosition, _startDirection, _defaulNeontSize);
              A.CallTo(() => _aquarium.GetSize()).Returns(_defaultSize);
              _objects = new List<GameObject> { _neon};
              A.CallTo(() => _aquarium.GetObjects()).Returns(_objects);
@@ -63,12 +63,6 @@ namespace Aquarium.Tests
          public void HaveSameNeonSize()
          {
              _neon.GetSize().Should().Be(_defaulNeontSize);
-         }
- 
-         [Test]
-         public void HaveSameLeader()
-         {
-             _neon.IsLeader.Should().BeTrue();
          }
  
          [Test]

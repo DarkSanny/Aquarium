@@ -1,8 +1,9 @@
 ﻿using System.Drawing;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Aquarium.Aquariums;
 using Aquarium.UI;
-using Timer = System.Windows.Forms.Timer;
 
 namespace Aquarium
 {
@@ -10,6 +11,7 @@ namespace Aquarium
 	{
 		private readonly IAquarium _aquarium;
 		private Size _defaultSize;
+
 		public GameForm(IAquarium aquarium)
 		{
 			DoubleBuffered = true;
@@ -22,13 +24,23 @@ namespace Aquarium
 		private void Init()
 		{
 			Render();
-			var updates = new Timer() {Interval = 1000 / 30};
-			updates.Tick += (sender, args) =>
+			var rendering = new Task(() =>
 			{
-				_aquarium.Update();
-				Invalidate();
-			};
-			updates.Start();
+				while (true)
+				{
+					Invalidate();
+				}
+			});
+			var updating = new Task(() =>
+			{
+				while (true)
+				{
+					_aquarium.Update();
+					Thread.Sleep(1000 / 30);
+				}
+			});
+			rendering.Start();
+			updating.Start();
 		}
 
 		private void Render()

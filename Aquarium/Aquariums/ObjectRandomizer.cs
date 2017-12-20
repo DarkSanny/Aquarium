@@ -11,6 +11,7 @@ namespace Aquarium.Aquariums
 		private readonly IAquarium _aquarium;
 
 		private readonly Dictionary<ObjectType, int> _objectsCounter;
+		private readonly IEnumerable<GameObject> _objects;
 
 		private static readonly Dictionary<ObjectType, Func<IAquarium, Point,double, Size, GameObject>> ObjectBuilder 
 			= new Dictionary<ObjectType, Func<IAquarium, Point, double, Size, GameObject>>()
@@ -24,13 +25,15 @@ namespace Aquarium.Aquariums
 		public ObjectRandomizer(IAquarium aquarium)
 		{
 			_aquarium = aquarium;
+			_objects = new List<GameObject>();
 			_objectsCounter = new Dictionary<ObjectType, int>();
 		}
 
-		private ObjectRandomizer(IAquarium aquarium, Dictionary<ObjectType, int> objectsCounter)
+		private ObjectRandomizer(IAquarium aquarium, Dictionary<ObjectType, int> objectsCounter, IEnumerable<GameObject> objects)
 		{
 			_aquarium = aquarium;
 			_objectsCounter = objectsCounter;
+			_objects = objects;
 		}
 
 		public ObjectRandomizer AddObject(ObjectType type, int countObjects)
@@ -39,12 +42,17 @@ namespace Aquarium.Aquariums
 				_objectsCounter[type] += Math.Max(0, countObjects);
 			else 
 				_objectsCounter[type] = Math.Max(0, countObjects);
-			return new ObjectRandomizer(_aquarium, _objectsCounter);
+			return new ObjectRandomizer(_aquarium, _objectsCounter, _objects);
+		}
+
+		public ObjectRandomizer WithObjects(IEnumerable<GameObject> objects)
+		{
+			   return new ObjectRandomizer(_aquarium, _objectsCounter, _objects.Concat(objects));
 		}
 
 		public List<GameObject> GetObjects()
 		{
-			var result = new List<GameObject>();
+			var result = _objects.ToList();
 			var random = new Random();
 			var aquariumSize = _aquarium.GetSize();
 			var defaultSize = new Size(80, 45);

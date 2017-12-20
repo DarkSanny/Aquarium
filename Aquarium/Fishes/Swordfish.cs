@@ -4,7 +4,7 @@ using Aquarium.Brains;
 
 namespace Aquarium.Fishes
 {
-	public class Swordfish : Fish
+	public class Swordfish : Fish, IDrawable, ICollise
 	{
 		private readonly IAquarium _aquarium;
 		private Point _location;
@@ -13,7 +13,7 @@ namespace Aquarium.Fishes
 		{
 			_aquarium = aquarium;
 			_location = location;
-			Speed = 7;
+			Speed = 6;
 			Force = 1;
 			Direction = direction;
 			SetBrain(new SwordfishBrain(this, aquarium));
@@ -24,30 +24,30 @@ namespace Aquarium.Fishes
 			return _location;
 		}
 
-		public override void Collision(IObject obj)
+		public void Collision(IObject obj)
 		{
 			if (!(obj is ICollise)) return;
 			var objSize = obj.GetSize();
 			var mySize = GetSize();
-			var collise = (ICollise)obj;
+			var collise = (ICollise) obj;
 			if (collise.GetCollisionType() == GetCollisionType() &&
-				objSize.Width * objSize.Height >= mySize.Width * mySize.Height / 2)
+			    objSize.Width * objSize.Height >= mySize.Width * mySize.Height / 2)
 				OnShouldDie();
 		}
 
-		public override ObjectType GetCollisionType()
+		public ObjectType GetCollisionType()
 		{
 			return ObjectType.Swordfish;
 		}
 
-		public override bool IsShouldCollise(IObject obj)
+		public bool IsShouldCollise(IObject obj)
 		{
 			if (!(obj is ICollise)) return true;
-			var collise = (ICollise)obj;
+			var collise = (ICollise) obj;
 			var objSize = obj.GetSize();
 			var mySize = GetSize();
 			return collise.GetCollisionType() != GetCollisionType() &&
-			       objSize.Width * objSize.Height < mySize.Width * mySize.Height/2;
+			       objSize.Width * objSize.Height < mySize.Width * mySize.Height / 2;
 		}
 
 		public override void Move()

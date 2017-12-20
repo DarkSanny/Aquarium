@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using Aquarium.Fishes;
@@ -27,13 +26,6 @@ namespace Aquarium.Aquariums
 				blueNeon.ShouldDie += () => GetFishes().OfType<BlueNeon>().Where(f => f == blueNeon).ToList().ForEach(f => f.Target = null);
 		}
 
-        private void AddGameObject(GameObject gameObject)
-        {
-            _objects.Add(gameObject);
-	        if (gameObject is Fish fish)
-		        fish.ShouldDie += () => _deadFishes.Push(fish);
-        }
-
 		public Size GetSize()
 		{
 			return _size;
@@ -41,7 +33,10 @@ namespace Aquarium.Aquariums
 
 		public IEnumerable<GameObject> GetObjects()
 		{
-			return _objects;
+			lock (_objects)
+			{
+				return _objects.ToList();
+			}
 		}
 
 		public IEnumerable<Fish> GetFishes()
@@ -60,7 +55,7 @@ namespace Aquarium.Aquariums
 			foreach (var fish in fishes)
 			{
 				var f1 = fishes.Where(f => f != fish).Where(f => f.Rectangle().IntersectsWith(fish.Rectangle()));
-				f1.ToList().ForEach(f => f.Collision(fish));
+				f1.OfType<ICollise>().ToList().ForEach(f => f.Collision(fish));
 			}
 		}
 	}

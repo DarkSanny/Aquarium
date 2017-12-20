@@ -23,7 +23,7 @@ namespace Aquarium.Tests
 		public void SetUp()
 		{
 			_aquarium = A.Fake<IAquarium>();
-			_neon1 = new BlueNeon(_aquarium, new Point(10, 10), 0, new Size(20, 10)) { IsLeader = true };
+			_neon1 = new BlueNeon(_aquarium, new Point(10, 10), 0, new Size(20, 10));
 			_neon2 = new BlueNeon(_aquarium, new Point(11, 11), 0, new Size(20, 10));
 			_neon3 = new BlueNeon(_aquarium, new Point(12, 12), 0, new Size(20, 10));
             _defaultSize = new Size(100, 100);

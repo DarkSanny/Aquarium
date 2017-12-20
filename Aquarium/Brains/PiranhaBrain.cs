@@ -27,10 +27,11 @@ namespace Aquarium.Brains
 			_states.Push(Move);
 			var food = _aquarium
 				.GetFishes()
+				.OfType<ICollise>()
 				.Where(f => Food.Contains(f.GetCollisionType()))
 				.ToList();
 			if (food.Count == 0) return;
-			OnTargetChanged(food.MinItem(f => _piranha.DistanceTo(f)));
+			OnTargetChanged(food.OfType<Fish>().MinItem(f => _piranha.DistanceTo(f)));
 			_states.Push(MoveToTarget);
 		}
 
