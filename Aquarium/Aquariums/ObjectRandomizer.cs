@@ -10,8 +10,9 @@ namespace Aquarium.Aquariums
 	{
 		private readonly IAquarium _aquarium;
 
-		private readonly Dictionary<ObjectType, int> _objectsCounter;
+		private readonly Dictionary<Tuple<ObjectType, Size>, int> _objectsCounter;
 		private readonly IEnumerable<GameObject> _objects;
+		private readonly Size _defaultSize = new Size(80, 45);
 
 		private static readonly Dictionary<ObjectType, Func<IAquarium, Point,double, Size, GameObject>> ObjectBuilder 
 			= new Dictionary<ObjectType, Func<IAquarium, Point, double, Size, GameObject>>()
@@ -26,10 +27,10 @@ namespace Aquarium.Aquariums
 		{
 			_aquarium = aquarium;
 			_objects = new List<GameObject>();
-			_objectsCounter = new Dictionary<ObjectType, int>();
+			_objectsCounter = new Dictionary<Tuple<ObjectType, Size>, int>();
 		}
 
-		private ObjectRandomizer(IAquarium aquarium, Dictionary<ObjectType, int> objectsCounter, IEnumerable<GameObject> objects)
+		private ObjectRandomizer(IAquarium aquarium, Dictionary<Tuple<ObjectType, Size>, int> objectsCounter, IEnumerable<GameObject> objects)
 		{
 			_aquarium = aquarium;
 			_objectsCounter = objectsCounter;
@@ -38,10 +39,16 @@ namespace Aquarium.Aquariums
 
 		public ObjectRandomizer AddObject(ObjectType type, int countObjects)
 		{
-			if (_objectsCounter.ContainsKey(type))
-				_objectsCounter[type] += Math.Max(0, countObjects);
-			else 
-				_objectsCounter[type] = Math.Max(0, countObjects);
+			return AddObject(type, countObjects, _defaultSize);
+		}
+
+		public ObjectRandomizer AddObject(ObjectType type, int countObjects, Size size)
+		{
+			var tuple = Tuple.Create(type, size);
+			if (_objectsCounter.ContainsKey(tuple))
+				_objectsCounter[tuple] += Math.Max(0, countObjects);
+			else
+				_objectsCounter[tuple] = Math.Max(0, countObjects);
 			return new ObjectRandomizer(_aquarium, _objectsCounter, _objects);
 		}
 
@@ -55,16 +62,15 @@ namespace Aquarium.Aquariums
 			var result = _objects.ToList();
 			var random = new Random();
 			var aquariumSize = _aquarium.GetSize();
-			var defaultSize = new Size(80, 45);
 			foreach (var objectsCounterKey in _objectsCounter.Keys)
 			{
 				var counter = _objectsCounter[objectsCounterKey];
 				while (counter > 0)
 				{
 					var point = new Point(random.Next(aquariumSize.Width), random.Next(aquariumSize.Height));
-					if (result.Any(o => o.Rectangle().IntersectsWith(GameObject.Rectangle(point, defaultSize))))
+					if (result.Any(o => o.Rectangle().IntersectsWith(GameObject.Rectangle(point, _defaultSize))))
 						continue;
-					result.Add(ObjectBuilder[objectsCounterKey](_aquarium, point, Math.PI/180 * random.Next(360), defaultSize));
+					result.Add(ObjectBuilder[objectsCounterKey.Item1](_aquarium, point, Math.PI/180 * random.Next(360), objectsCounterKey.Item2));
 					counter--;
 				}
 			}

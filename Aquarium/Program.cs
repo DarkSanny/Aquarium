@@ -28,7 +28,7 @@ namespace Aquarium
 				})
 				.AddObject(ObjectType.Piranha, 1)
 				.AddObject(ObjectType.Catfish, 2)
-				.AddObject(ObjectType.Swordfish, 3);
+				.AddObject(ObjectType.Swordfish, 1, new Size(200, 200));
 			aquarium.Start(provider);
 			Application.Run(new GameForm(aquarium));
 		}

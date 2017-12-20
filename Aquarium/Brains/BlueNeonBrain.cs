@@ -11,7 +11,7 @@ namespace Aquarium.Brains
 		private readonly BlueNeon _neon;
 		private readonly IAquarium _aquarium;
 		private readonly Stack<Action> _states;
-		private static readonly HashSet<ObjectType> NaturalEnemies = new HashSet<ObjectType>() { ObjectType.Piranha };
+		private static readonly HashSet<ObjectType> NaturalEnemies = new HashSet<ObjectType>() { ObjectType.Piranha, ObjectType.Swordfish };
 		private GameObject _danger;
 		private const int DangerRadius = 300;
 

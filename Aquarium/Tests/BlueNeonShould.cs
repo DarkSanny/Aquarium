@@ -39,7 +39,6 @@ namespace Aquarium.Tests
              _brain = new BlueNeonBrain(_neon, _aquarium);
          }
  
- 
          [Test]
          public void SimpleTestForExample()
          {

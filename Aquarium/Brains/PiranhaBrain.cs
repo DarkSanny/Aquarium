@@ -38,6 +38,7 @@ namespace Aquarium.Brains
 		private void MoveToTarget()
 		{
 			if (_piranha.Target == null) return;
+			if (!_aquarium.GetFishes().Contains(_piranha.Target)) return;
 			if (_piranha.DistanceTo(_piranha.Target) > _visorRadius)
 			{
 				OnTargetChanged(null);
