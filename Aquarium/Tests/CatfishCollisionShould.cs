@@ -51,14 +51,14 @@ namespace Aquarium.Tests
         }
 
         [Test]
-        public void NotCollise_WithSwordFish()
+        public void NotCollise_WithSwordfish()
         {
             var swordfish = new Swordfish(_aquarium, _defaultPostition, 0, _defaultSize);
             _catfish1.IsShouldCollise(swordfish).Should().BeFalse();
         }
 
         [Test]
-        public void NotDie_WhenCollisionWithoutCollise()
+        public void NotDie_WhenCollisionWithoutICollise()
         {
             var fish = A.Fake<Fish>();
             var counter = 0;

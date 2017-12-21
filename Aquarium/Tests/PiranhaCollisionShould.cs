@@ -52,7 +52,7 @@ namespace Aquarium.Tests
         }
 
         [Test]
-        public void NotCollise_WithSwordFish()
+        public void NotCollise_WithSwordfish()
         {
             var swordfish = new Swordfish(_aquarium, _defaultPostition, 0, _defaultSize);
             _piranha1.IsShouldCollise(swordfish).Should().BeFalse();
@@ -62,12 +62,13 @@ namespace Aquarium.Tests
         public void BlueNeonShouldDie()
         {
             var blueNeon = new BlueNeon(_aquarium, _defaultPostition, 0, new Size(10, 10));
+            _piranha1.Target = blueNeon;
             _piranha1.Collision(blueNeon);
             _piranha1.Target.Should().Be(null);
         }
 
         [Test]
-        public void NotDie_WhenCollisionWithoutCollise()
+        public void NotDie_WhenCollisionWithoutICollise()
         {
             var fish = A.Fake<Fish>();
             var counter = 0;

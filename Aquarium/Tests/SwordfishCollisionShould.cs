@@ -52,14 +52,42 @@ namespace Aquarium.Tests
         }
 
         [Test]
-        public void NotCollise_WithSwordFish()
+        public void NotCollise_WithSwordfish()
         {
             var swordfish = new Swordfish(_aquarium, _defaultPostition, 0, _defaultSize);
             _swordfish1.IsShouldCollise(swordfish).Should().BeFalse();
         }
 
         [Test]
-        public void NotDie_WhenCollisionWithoutCollise()
+        public void NotCollise_WithSmallSwordfish()
+        {
+            var swordfish = new Swordfish(_aquarium, _defaultPostition, 0, new Size(10, 10));
+            _swordfish1.IsShouldCollise(swordfish).Should().BeFalse();
+        }
+
+        [Test]
+        public void Collise_WithSmallNeon()
+        {
+            var neon = new BlueNeon(_aquarium, _defaultPostition, 0, new Size(10, 10));
+            _swordfish1.IsShouldCollise(neon).Should().BeTrue();
+        }
+
+        [Test]
+        public void Collise_WithSmallPiranha()
+        {
+            var piranha = new Piranha(_aquarium, _defaultPostition, 0, new Size(10, 10));
+            _swordfish1.IsShouldCollise(piranha).Should().BeTrue();
+        }
+
+        [Test]
+        public void Collise_WithSmallCatfish()
+        {
+            var catfish = new Catfish(_aquarium, _defaultPostition, 0, new Size(10, 10));
+            _swordfish1.IsShouldCollise(catfish).Should().BeTrue();
+        }
+
+        [Test]
+        public void NotDie_WhenCollisionWithoutICollise()
         {
             var fish = A.Fake<Fish>();
             var counter = 0;
