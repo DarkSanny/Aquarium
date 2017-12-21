@@ -14,56 +14,86 @@ namespace Aquarium.Tests
     [TestFixture]
     class FishShould
     {
-        private SimpleAquarium _aquarium;
+        private IAquarium _aquarium;
         private Point _startPosition = new Point(10, 10);
         private Size _defaultSize = new Size(100, 50);
         private Size _defaulNeontSize = new Size(20, 10);
-        private IObjectProvider _objects;
 
         [SetUp]
         public void SetUp()
         {
-            _aquarium = new SimpleAquarium(_defaultSize);
-            _objects = new ObjectRandomizer(_aquarium);
+            _aquarium =A.Fake<IAquarium>();
         }
         [Test]
-        public void HaveSameMoveLeft()
+        public void MoveLeft_WhenDeirectionIsLeft()
         {
             var _fish = new BlueNeon(_aquarium, _startPosition, Math.PI, _defaulNeontSize);
-            _objects.GetObjects().Add(_fish);
-            _aquarium.Start(_objects);
+            A.CallTo(() => _aquarium.GetSize()).Returns(_defaultSize);
             _fish.Move();
             _fish.GetLocation().Should().Be(new Point(_startPosition.X - (int)_fish.Speed, _startPosition.Y));
         }
 
         [Test]
-        public void HaveSameMoveUp()
+        public void MoveUp_WhenDeirectionIsUp()
         {
             var _fish = new BlueNeon(_aquarium, _startPosition, Math.PI / 2, _defaulNeontSize);
-            _objects.GetObjects().Add(_fish);
-            _aquarium.Start(_objects);
+            A.CallTo(() => _aquarium.GetSize()).Returns(_defaultSize);
             _fish.Move();
             _fish.GetLocation().Should().Be(new Point(_startPosition.X, _startPosition.Y + (int)_fish.Speed));
         }
 
         [Test]
-        public void HaveSameMoveRight()
+        public void MoveRight_WhenDeirectionIsRight()
         {
             var _fish = new BlueNeon(_aquarium, _startPosition, 0, _defaulNeontSize);
-            _objects.GetObjects().Add(_fish);
-            _aquarium.Start(_objects);
+            A.CallTo(() => _aquarium.GetSize()).Returns(_defaultSize);
             _fish.Move();
             _fish.GetLocation().Should().Be(new Point(_startPosition.X + (int)_fish.Speed, _startPosition.Y));
         }
 
         [Test]
-        public void HaveSameMoveDown()
+        public void MoveDown_WhenDeirectionIsDown()
         {
-            var _fish = new Piranha(_aquarium, _startPosition, -Math.PI / 2, _defaulNeontSize);
-            _objects.GetObjects().Add(_fish);
-            _aquarium.Start(_objects);
+            var _fish = new BlueNeon(_aquarium, _startPosition, -Math.PI / 2, _defaulNeontSize);
+            A.CallTo(() => _aquarium.GetSize()).Returns(_defaultSize);
             _fish.Move();
             _fish.GetLocation().Should().Be(new Point(_startPosition.X, _startPosition.Y - (int)_fish.Speed));
+        }
+
+        [Test]
+        public void Move_WhenBorderIsRight()
+        {
+            var _fish = new BlueNeon(_aquarium, new Point(100,25), 0, _defaulNeontSize);
+            A.CallTo(() => _aquarium.GetSize()).Returns(_defaultSize);
+            _fish.Move();
+            _fish.GetLocation().Should().Be(new Point(100 - (int)_fish.Speed, 25));
+        }
+
+        [Test]
+        public void Move_WhenBorderIsUp()
+        {
+            var _fish = new BlueNeon(_aquarium, new Point(50, 50), Math.PI / 2, _defaulNeontSize);
+            A.CallTo(() => _aquarium.GetSize()).Returns(_defaultSize);
+            _fish.Move();
+            _fish.GetLocation().Should().Be(new Point(50, 50 - (int)_fish.Speed));
+        }
+
+        [Test]
+        public void Move_WhenBorderIsLeft()
+        {
+            var _fish = new BlueNeon(_aquarium, new Point(0, 25), Math.PI, _defaulNeontSize);
+            A.CallTo(() => _aquarium.GetSize()).Returns(_defaultSize);
+            _fish.Move();
+            _fish.GetLocation().Should().Be(new Point((int)_fish.Speed, 25));
+        }
+
+        [Test]
+        public void Move_WhenBorderIsDown()
+        {
+            var _fish = new BlueNeon(_aquarium, new Point(50, 0), -Math.PI/2, _defaulNeontSize);
+            A.CallTo(() => _aquarium.GetSize()).Returns(_defaultSize);
+            _fish.Move();
+            _fish.GetLocation().Should().Be(new Point(50, (int)_fish.Speed));
         }
     }
 }
