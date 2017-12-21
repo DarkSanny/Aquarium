@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using Aquarium.Aquariums;
 using Aquarium.Brains;
+using Aquarium.UI;
 
 namespace Aquarium.Fishes
 {

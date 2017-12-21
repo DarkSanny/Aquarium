@@ -57,7 +57,7 @@ namespace Aquarium.Tests
         public void DieWhenColision()
         {
             var _size = new Size(_defaultSize.Height + 10, _defaultSize.Width + 10);
-            var anyFishWishCollise = new Swordfish(_aquarium, _defaultPostition, 0, _size);
+            var anyFishWishCollise = new Swordfish(_aquarium, _defaultPostition, 0, _defaultSize);
             var counter = 0;
             _swordfish1.ShouldDie += () => counter++;
             _swordfish1.Collision(anyFishWishCollise);

@@ -1,4 +1,4 @@
-﻿namespace Aquarium
+﻿namespace Aquarium.UI
 {
 	public interface IDrawable
 	{
