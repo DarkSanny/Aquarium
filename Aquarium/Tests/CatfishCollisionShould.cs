@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace Aquarium.Tests
 {
-    class CatfishCollisionShould
+    public class CatfishCollisionShould
     {
         private IAquarium _aquarium;
         private Size _defaultSize;
@@ -22,11 +22,13 @@ namespace Aquarium.Tests
             _defaultPostition = new Point(10, 10);
             _catfish1 = new Catfish(_aquarium, _defaultPostition, 0, new Size(30, 10));
         }
+
         [Test]
         public void ShouldHaveCorrectType()
         {
             _catfish1.GetCollisionType().Should().Be(ObjectType.Catfish);
         }
+
         [Test]
         public void NotCollise_WithNeon()
         {
@@ -40,18 +42,31 @@ namespace Aquarium.Tests
             var piranha = new Piranha(_aquarium, _defaultPostition, 0, _defaultSize);
             _catfish1.IsShouldCollise(piranha).Should().BeFalse();
         }
+
         [Test]
         public void NotCollise_WithCatfish()
         {
             var catfish = new Catfish(_aquarium, _defaultPostition, 0, _defaultSize);
             _catfish1.IsShouldCollise(catfish).Should().BeFalse();
         }
+
         [Test]
         public void NotCollise_WithSwordFish()
         {
             var swordfish = new Swordfish(_aquarium, _defaultPostition, 0, _defaultSize);
             _catfish1.IsShouldCollise(swordfish).Should().BeFalse();
         }
+
+        [Test]
+        public void NotDie_WhenCollisionWithoutCollise()
+        {
+            var fish = A.Fake<Fish>();
+            var counter = 0;
+            _catfish1.ShouldDie += () => counter++;
+            _catfish1.Collision(fish);
+            counter.Should().Be(0);
+        }
+
         [Test]
         public void DieWhenColision()
         {
@@ -61,7 +76,6 @@ namespace Aquarium.Tests
             _catfish1.Collision(anyFishWishCollise);
             counter.Should().Be(1);
         }
-
     }
 }
 

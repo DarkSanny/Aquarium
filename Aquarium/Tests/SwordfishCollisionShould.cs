@@ -8,7 +8,7 @@ using NUnit.Framework;
 
 namespace Aquarium.Tests
 {
-    class SwordfishCollisionShould
+    public class SwordfishCollisionShould
     {
         private IAquarium _aquarium;
         private Size _defaultSize;
@@ -23,11 +23,13 @@ namespace Aquarium.Tests
             _defaultPostition = new Point(10, 10);
             _swordfish1 = new Swordfish(_aquarium, _defaultPostition, 0, new Size(30, 10));
         }
+
         [Test]
         public void ShouldHaveCorrectType()
         {
             _swordfish1.GetCollisionType().Should().Be(ObjectType.Swordfish);
         }
+
         [Test]
         public void NotCollise_WithNeon()
         {
@@ -41,23 +43,45 @@ namespace Aquarium.Tests
             var piranha = new Piranha(_aquarium, _defaultPostition, 0, _defaultSize);
             _swordfish1.IsShouldCollise(piranha).Should().BeFalse();
         }
+
         [Test]
         public void NotCollise_WithCatfish()
         {
             var catfish = new Catfish(_aquarium, _defaultPostition, 0, _defaultSize);
             _swordfish1.IsShouldCollise(catfish).Should().BeFalse();
         }
+
         [Test]
         public void NotCollise_WithSwordFish()
         {
             var swordfish = new Swordfish(_aquarium, _defaultPostition, 0, _defaultSize);
             _swordfish1.IsShouldCollise(swordfish).Should().BeFalse();
         }
+
+        [Test]
+        public void NotDie_WhenCollisionWithoutCollise()
+        {
+            var fish = A.Fake<Fish>();
+            var counter = 0;
+            _swordfish1.ShouldDie += () => counter++;
+            _swordfish1.Collision(fish);
+            counter.Should().Be(0);
+        }
+
+        [Test]
+        public void NotDieWhenColision()
+        {
+            var anyFishWishCollise = new Swordfish(_aquarium, _defaultPostition, 0, new Size(20, 5));
+            var counter = 0;
+            _swordfish1.ShouldDie += () => counter++;
+            _swordfish1.Collision(anyFishWishCollise);
+            counter.Should().Be(0);
+        }
+
         [Test]
         public void DieWhenColision()
         {
-            var _size = new Size(_defaultSize.Height + 10, _defaultSize.Width + 10);
-            var anyFishWishCollise = new Swordfish(_aquarium, _defaultPostition, 0, _defaultSize);
+            var anyFishWishCollise = new Swordfish(_aquarium, _defaultPostition, 0, new Size(40,50));
             var counter = 0;
             _swordfish1.ShouldDie += () => counter++;
             _swordfish1.Collision(anyFishWishCollise);
