@@ -84,6 +84,7 @@
     <Compile Include="Aquariums\IAquarium.cs" />
     <Compile Include="ICollise.cs" />
     <Compile Include="Tests\CatfishCollisionShould.cs" />
+    <Compile Include="Tests\FishMoveShould.cs" />
     <Compile Include="Tests\PiranhaCollisionShould.cs" />
     <Compile Include="Tests\SwordfishCollisionShould.cs" />
     <Compile Include="UI\IDrawable.cs" />
