@@ -59,7 +59,7 @@ namespace Aquarium.Tests
         }
 
         [Test]
-        public void BlueNeonShouldDie()
+        public void ChangeTarget_WhenKill()
         {
             var blueNeon = new BlueNeon(_aquarium, _defaultPostition, 0, new Size(10, 10));
             _piranha1.Target = blueNeon;
@@ -78,7 +78,7 @@ namespace Aquarium.Tests
         }
 
         [Test]
-        public void DieWhenColision()
+        public void DieWhen_ColisionWithBigFish()
         {
             var anyFishWishCollise = new Swordfish(_aquarium, _defaultPostition, 0, _defaultSize);
             var counter = 0;

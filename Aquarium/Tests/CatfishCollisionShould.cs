@@ -68,7 +68,7 @@ namespace Aquarium.Tests
         }
 
         [Test]
-        public void DieWhenColision()
+        public void DieWhen_ColisionWithBigFish()
         {
             var anyFishWishCollise = new Swordfish(_aquarium, _defaultPostition, 0, _defaultSize);
             var counter = 0;

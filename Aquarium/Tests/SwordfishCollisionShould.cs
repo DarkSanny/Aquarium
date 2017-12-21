@@ -66,7 +66,7 @@ namespace Aquarium.Tests
         }
 
         [Test]
-        public void Collise_WithSmallNeon()
+        public void Collise_WithSmallNeon_WhenKill()
         {
             var neon = new BlueNeon(_aquarium, _defaultPostition, 0, new Size(10, 10));
             _swordfish1.IsShouldCollise(neon).Should().BeTrue();
@@ -97,7 +97,7 @@ namespace Aquarium.Tests
         }
 
         [Test]
-        public void NotDieWhenColision()
+        public void NotDie_WhenColisionWithSmallFish()
         {
             var anyFishWishCollise = new Swordfish(_aquarium, _defaultPostition, 0, new Size(20, 5));
             var counter = 0;
@@ -107,7 +107,7 @@ namespace Aquarium.Tests
         }
 
         [Test]
-        public void DieWhenColision()
+        public void DieWhenColisionWithBigFish()
         {
             var anyFishWishCollise = new Swordfish(_aquarium, _defaultPostition, 0, new Size(40,50));
             var counter = 0;
