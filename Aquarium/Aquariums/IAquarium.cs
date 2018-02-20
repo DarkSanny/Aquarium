@@ -2,7 +2,7 @@
 using System.Drawing;
 using Aquarium.Fishes;
 
-namespace Aquarium
+namespace Aquarium.Aquariums
 {
     public interface IAquarium
     {

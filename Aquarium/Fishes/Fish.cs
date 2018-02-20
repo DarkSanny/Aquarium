@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using Aquarium.Aquariums;
 using Aquarium.Brains;
 
 namespace Aquarium.Fishes
@@ -9,10 +10,12 @@ namespace Aquarium.Fishes
 	public enum ObjectType
 	{
 		BlueNeon,
-		Piranha
+		Piranha,
+		Catfish,
+		Swordfish
 	}
 
-	public abstract class Fish : GameObject, ICollise
+	public abstract class Fish : GameObject
 	{
 		protected Brain Brain;
 		private readonly Size _size;
@@ -20,18 +23,12 @@ namespace Aquarium.Fishes
 
 		public double Direction
 		{
-			get
-            {
-                return _direction;
-            }
-			protected set
-            {
-                _direction = value % (2 * Math.PI);
-            }
+			get => _direction;
+			protected set => _direction = (value + (2 * Math.PI)) % (2 * Math.PI);
 		}
 		public double Speed { get; protected set; }
 		public int Force { get; protected set; }
-		public Fish Target { get; protected set; }
+		public GameObject Target { get; set; }
 
 		protected Fish(Size size)
 		{
@@ -50,13 +47,8 @@ namespace Aquarium.Fishes
 			return _size;
 		}
 
-		public abstract void Collision(ObjectType objectType, GameObject obj);
-
-		public abstract ObjectType GetCollisionType();
-
 		public abstract void Move();
 
-		public abstract bool IsShouldCollise(ObjectType objectType);
 
 		protected Point GetNextPoint(IAquarium aquarium)
 		{
@@ -65,16 +57,18 @@ namespace Aquarium.Fishes
 				var nextPoint = GetCartesianPoint();
 				if (IsOutOfBorder(nextPoint, aquarium))
 					Direction = Bounce(Direction, nextPoint, aquarium);
-				else
+				else if (this is ICollise)
 				{
+					var collise = this as ICollise;
 					var intersections = aquarium.GetObjects()
 						.Where(o => o != this && o.Rectangle().IntersectsWith(Rectangle(nextPoint, GetSize())));
 					var gameObjects = intersections as IList<GameObject> ?? intersections.ToList();
 					if (!gameObjects.Any()) return nextPoint;
 					var collisions = gameObjects.OfType<ICollise>();
-					if (collisions.All(c => IsShouldCollise(c.GetCollisionType()))) return nextPoint;
+					if (collisions.Where(c => c is IObject).All(c => collise.IsShouldCollise((IObject) c))) return nextPoint;
 					return GetLocation();
 				}
+				else return GetCartesianPoint();
 			}
 		}
 

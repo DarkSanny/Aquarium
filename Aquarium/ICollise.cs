@@ -4,8 +4,8 @@ namespace Aquarium
 {
     public interface ICollise
     {
-        void Collision(ObjectType objectType, GameObject obj);
+        void Collision(IObject obj);
         ObjectType GetCollisionType();
-        bool IsShouldCollise(ObjectType objectType);
+        bool IsShouldCollise(IObject obj);
     }
 }

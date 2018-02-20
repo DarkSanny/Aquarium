@@ -1,26 +1,32 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 
 namespace Aquarium.UI
 {
-    class ImageLoaderFromFile : IImageLoader
+    public class ImageLoaderFromFile : IImageLoader
     {
-        private List<Bitmap> images;
+        private List<Bitmap> _images;
 
         public ImageLoaderFromFile(string gameObject)
         {
-            List<Bitmap> images = new List<Bitmap>();
-            DirectoryInfo dir = new DirectoryInfo("Resources");
-            foreach (FileInfo file in dir.EnumerateFiles(gameObject + "*.png"))
-            {
-                images.Add((Bitmap)Image.FromFile(file.FullName));
-            }
+            ChangeObject(gameObject);
+        }
+
+        public void ChangeObject(string gameObject)
+        {
+            var dir = new DirectoryInfo("Resources");
+            _images = dir
+                .EnumerateFiles(gameObject + "*.png")
+				.OrderBy(file => int.Parse(Path.GetFileNameWithoutExtension(file.FullName).Substring(gameObject.Length)))
+                .Select(file => (Bitmap)Image.FromFile(file.FullName))
+                .ToList();
         }
 
         public List<Bitmap> GetImages()
         {
-            return images;
+            return _images;
         }
     }
 }

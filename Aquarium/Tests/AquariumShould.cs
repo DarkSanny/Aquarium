@@ -4,22 +4,38 @@ using FluentAssertions;
 using System.Drawing;
 using System.Linq;
 using Aquarium.Fishes;
+using Aquarium.Aquariums;
+using System.Collections.Generic;
 
 namespace Aquarium.Tests
 {
 	[TestFixture]
 	public class AquariumShould
 	{
-        private Aquarium _aquarium;
+        private SimpleAquarium _aquarium;
         private GameObject _object;
-        private Size _defaultSize = new Size(100, 50);
-        private int _defaultFishCount = 4;
+        private readonly Size _defaultSize = new Size(1000, 1000);
+		private const int _defaultFishCount = 4;
+        private List<GameObject> _objects;
+        private BlueNeon _blueNeon;
+        private Catfish _catfish;
+        private Swordfish _swordfish;
+        private Piranha _piranha;
+        private IObjectProvider _provider;
 
         [SetUp]
-        public void SetUp ()
+		public void SetUp ()
         {
-            _aquarium = new Aquarium(_defaultSize, _defaultFishCount);
             _object = A.Fake<GameObject>();
+            _aquarium = new SimpleAquarium(_defaultSize);
+            _blueNeon = new BlueNeon(_aquarium, new Point(10, 10), 0, new Size(10, 10));
+            _catfish = new Catfish(_aquarium, new Point(10, 10), 0, new Size(10, 5));
+            _swordfish = new Swordfish(_aquarium, new Point(10, 10), 0, new Size(20, 10));
+            _piranha = new Piranha(_aquarium, new Point(10, 10), 0, new Size(10, 10));
+            _provider = A.Fake<IObjectProvider>();
+            _objects = new List<GameObject> { _blueNeon, _catfish, _swordfish, _piranha, _object };
+            A.CallTo(() => _provider.GetObjects()).Returns(_objects);
+            _aquarium.Start(_provider);
         }
 
         [Test]
@@ -29,37 +45,38 @@ namespace Aquarium.Tests
         }
 
         [Test]
-        public void HaveSameCountFishes()
+		public void HaveSameCountFishes()
         {
-            _aquarium.AddGameObject(_object);
             _aquarium.GetFishes().ToList().Count.Should().Be(_defaultFishCount);
+        }
+
+        [Test]
+        public void HaveSameObjects()
+        {
+            _aquarium.GetObjects().ShouldAllBeEquivalentTo(_objects);
         }
 
         [Test]
         public void NotKillFishesBeforeUpdate_WhenTheyDied()
         {
-            var fish = _aquarium.GetFishes().FirstOrDefault();
-            var fish2 = A.Fake<Fish>();
-            fish.Collision(ObjectType.Piranha, fish2);
-            _aquarium.GetFishes().ToList().Count.Should().Be(_defaultFishCount);
+            var fish = _aquarium.GetFishes().OfType<BlueNeon>().FirstOrDefault();
+	        fish.Collision(_piranha);
+	        _aquarium.GetFishes().ToList().Count.Should().Be(_defaultFishCount);
         }
 
         [Test]
-        public void KillFishesAfterUpdate_WhenTheyDied()
+		public void KillFishesAfterUpdate_WhenTheyDied()
         {
-            var fish = _aquarium.GetFishes().FirstOrDefault();
-            var fish2 = A.Fake<Fish>();
-            fish.Collision(ObjectType.Piranha, fish2);
-            _aquarium.Update();
+            var fish = _aquarium.GetFishes().OfType<BlueNeon>().FirstOrDefault();
+	        fish.Collision(_piranha);
+	        _aquarium.Update();
             _aquarium.GetFishes().ToList().Count.Should().Be(_defaultFishCount - 1);
         }
 
         [Test]
-        public void HaveCorrectObjectCount()
+		public void HaveCorrectObjectCount()
         {
-            _aquarium.AddGameObject(_object);
-            _aquarium.GetObjects().ToList().Count.Should().Be(_defaultFishCount + 1);
+            _aquarium.GetObjects().ToList().Count.Should().Be(_objects.Count);
         }
-
 	}
 }
