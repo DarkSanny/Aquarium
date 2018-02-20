@@ -1,13 +1,24 @@
+﻿<<<<<<< HEAD
 ﻿using System.Drawing;
 using Aquarium.Aquariums;
+=======
+﻿using System.Collections.Generic;
+using System.Drawing;
+>>>>>>> 434b59ca8a11ada678b999d53a55121cd5b064b5
 using Aquarium.Fishes;
 using FakeItEasy;
+using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
+<<<<<<< HEAD
 using Aquarium.Brains;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+=======
+using System;
+using Aquarium.Brains;
+>>>>>>> 434b59ca8a11ada678b999d53a55121cd5b064b5
 
 namespace Aquarium.Tests
 {
@@ -62,6 +73,5 @@ namespace Aquarium.Tests
         {
             _neon.GetLocation().Should().Be(_startPosition);
         }
-
     }
 }
